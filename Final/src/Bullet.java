@@ -15,18 +15,20 @@ public class Bullet extends JComponent
 	private Ellipse2D.Double bullet;
 	private int dx, dy, size, damage;
 	private Color color;
+	private Boolean hostile;
 	//Basic constructor
 	public Bullet()
 	{
 		bullet = new Ellipse2D.Double(0, 0, 15, 15);
-		setBounds(0, 0, 16, 16);
+		setBounds(50, 50, 16, 16);
 		dx = 0;
 		dy = 0;
 		color = Color.BLACK;
 		damage = 1;
+		hostile = true;
 	}
 	//More advanced constructor
-	public Bullet(int x, int y, int dx, int dy, int size, int damage, Color color)
+	public Bullet(int x, int y, int dx, int dy, int size, int damage, boolean hostile, Color color)
 	{
 		bullet = new Ellipse2D.Double(0, 0, size, size);
 		setBounds(x, y, size+1, size+1);
@@ -34,6 +36,7 @@ public class Bullet extends JComponent
 		this.dy = dy;
 		this.color = color;
 		this.damage = damage;
+		this.hostile = hostile;
 	}
 	//Paint
 	public void paintComponent(Graphics g)
@@ -63,6 +66,11 @@ public class Bullet extends JComponent
 	public int getDamage()
 	{
 		return damage;
+	}
+	//Getter to see if hostile
+	public boolean getHostile()
+	{
+		return hostile;
 	}
 	//Update location
 	public void update()

@@ -29,8 +29,13 @@ public class ProjectMain extends JFrame implements ActionListener
         setResizable(false);
         
         //Creating the Bullet ArrayList
+        //Adding an example bullet to make sure bullet stuff works
         bullets = new ArrayList<Bullet>();
-        
+        bullets.add(new Bullet());
+        for(Bullet b : bullets)
+        {
+        	add(b);
+        }
         //Creating the player character
         health = 100;
         player = new Player(400, 400, health); //Location is just a placeholder
@@ -80,10 +85,10 @@ public class ProjectMain extends JFrame implements ActionListener
 				}
 				//TODO add it so that pressing space fires
 			}
-
 			@Override
 			public void keyReleased(KeyEvent e) 
 			{
+				//Stopping Movement
 				if(e.getKeyCode() == KeyEvent.VK_W)
 				{
 					player.setDy(0);
@@ -109,8 +114,12 @@ public class ProjectMain extends JFrame implements ActionListener
 						player.useScreenClear();
 						for(int i = 0; i < bullets.size(); i++)
 						{
-							bullets.remove(i);
-							i--;
+							if(bullets.get(i).getHostile())
+							{
+								remove(bullets.get(i));
+								bullets.remove(i);
+								i--;
+							}
 						}
 						remainingClears.setText("Remaining Clears: " + player.getScreenClears());
 					}
@@ -129,6 +138,13 @@ public class ProjectMain extends JFrame implements ActionListener
 	{
     	//Updating the player's location
 		player.update();
+		
+		for(Bullet b : bullets)
+		{
+			b.update();
+		}
+		
+		repaint();
 		
 		//Keeping the player within bounds
 		if(player.getX() < 0)
