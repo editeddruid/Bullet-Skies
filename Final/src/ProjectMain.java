@@ -80,10 +80,10 @@ public class ProjectMain extends JFrame implements ActionListener
 				}
 				//TODO add it so that pressing space fires
 			}
-
 			@Override
 			public void keyReleased(KeyEvent e) 
 			{
+				//Stopping Movement
 				if(e.getKeyCode() == KeyEvent.VK_W)
 				{
 					player.setDy(0);
@@ -109,8 +109,11 @@ public class ProjectMain extends JFrame implements ActionListener
 						player.useScreenClear();
 						for(int i = 0; i < bullets.size(); i++)
 						{
-							bullets.remove(i);
-							i--;
+							if(bullets.get(i).getHostile())
+							{
+								bullets.remove(i);
+								i--;
+							}
 						}
 						remainingClears.setText("Remaining Clears: " + player.getScreenClears());
 					}
