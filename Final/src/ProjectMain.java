@@ -18,7 +18,8 @@ public class ProjectMain extends JFrame implements ActionListener
 	private Timer t;
 	private ArrayList<Bullet> bullets;
 	private int health; //For if we decide to do multiple levels and want to transfer over health
-    public ProjectMain()
+    //TODO add a label that tracks how many remaining screen clears there are
+	public ProjectMain()
     {
         //Basic initialization
         setTitle("Placeholder Title");
@@ -55,23 +56,24 @@ public class ProjectMain extends JFrame implements ActionListener
 			@Override
 			public void keyPressed(KeyEvent e) 
 			{
+				//Movement
 				if(e.getKeyCode() == KeyEvent.VK_W)
 				{
-					player.setDy(-6);
+					player.setDy(-4);
 				}
 				if(e.getKeyCode() == KeyEvent.VK_S)
 				{
-					player.setDy(6);
+					player.setDy(4);
 				}
 				if(e.getKeyCode() == KeyEvent.VK_A)
 				{
-					player.setDx(-6);
+					player.setDx(-4);
 				}
 				if(e.getKeyCode() == KeyEvent.VK_D)
 				{
-					player.setDx(6);
+					player.setDx(4);
 				}
-				
+				//TODO add it so that pressing space fires
 			}
 
 			@Override
@@ -94,6 +96,19 @@ public class ProjectMain extends JFrame implements ActionListener
 					player.setDx(0);
 				}
 				
+				//Uses a screen clear that removes all bullets onscreen. Only works if a screen clear is available.
+				if(e.getKeyCode() == KeyEvent.VK_SHIFT)
+				{
+					if(player.getScreenClears() > 0)
+					{
+						player.useScreenClear();
+						for(int i = 0; i < bullets.size(); i++)
+						{
+							bullets.remove(i);
+							i--;
+						}
+					}
+				}
 			}
 			
 		});
