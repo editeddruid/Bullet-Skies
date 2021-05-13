@@ -6,8 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.Timer;
 
 public class ProjectMain extends JFrame implements ActionListener
@@ -15,8 +17,10 @@ public class ProjectMain extends JFrame implements ActionListener
 	//Creating Fields
 	private Player player;
 	private Timer t;
+	private ArrayList<Bullet> bullets;
 	private int health; //For if we decide to do multiple levels and want to transfer over health
-    public ProjectMain()
+	private JLabel remainingClears;
+	public ProjectMain()
     {
         //Basic initialization
         setTitle("Placeholder Title");
@@ -24,11 +28,18 @@ public class ProjectMain extends JFrame implements ActionListener
         setLayout(null);
         setResizable(false);
         
+        //Creating the Bullet ArrayList
+        bullets = new ArrayList<Bullet>();
+        
         //Creating the player character
         health = 100;
         player = new Player(400, 400, health); //Location is just a placeholder
         add(player);
         
+        //Creating the remainingClears label
+        remainingClears = new JLabel("Remaining Clears: " + player.getScreenClears());
+        remainingClears.setBounds(100, 20, 150, 50);
+        add(remainingClears);
         //Adding the Timer
         t = new Timer(10, this);
         t.start();
@@ -50,23 +61,24 @@ public class ProjectMain extends JFrame implements ActionListener
 			@Override
 			public void keyPressed(KeyEvent e) 
 			{
+				//Movement
 				if(e.getKeyCode() == KeyEvent.VK_W)
 				{
-					player.setDy(-6);
+					player.setDy(-4);
 				}
 				if(e.getKeyCode() == KeyEvent.VK_S)
 				{
-					player.setDy(6);
+					player.setDy(4);
 				}
 				if(e.getKeyCode() == KeyEvent.VK_A)
 				{
-					player.setDx(-6);
+					player.setDx(-4);
 				}
 				if(e.getKeyCode() == KeyEvent.VK_D)
 				{
-					player.setDx(6);
+					player.setDx(4);
 				}
-				
+				//TODO add it so that pressing space fires
 			}
 
 			@Override
@@ -89,6 +101,20 @@ public class ProjectMain extends JFrame implements ActionListener
 					player.setDx(0);
 				}
 				
+				//Uses a screen clear that removes all bullets onscreen. Only works if a screen clear is available.
+				if(e.getKeyCode() == KeyEvent.VK_SHIFT)
+				{
+					if(player.getScreenClears() > 0)
+					{
+						player.useScreenClear();
+						for(int i = 0; i < bullets.size(); i++)
+						{
+							bullets.remove(i);
+							i--;
+						}
+						remainingClears.setText("Remaining Clears: " + player.getScreenClears());
+					}
+				}
 			}
 			
 		});
