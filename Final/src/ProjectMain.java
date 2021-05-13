@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.Timer;
@@ -15,6 +16,7 @@ public class ProjectMain extends JFrame implements ActionListener
 	//Creating Fields
 	private Player player;
 	private Timer t;
+	private ArrayList<Bullet> bullets;
 	private int health; //For if we decide to do multiple levels and want to transfer over health
     public ProjectMain()
     {
@@ -23,6 +25,9 @@ public class ProjectMain extends JFrame implements ActionListener
         setBounds(100, 100, 800, 1000);
         setLayout(null);
         setResizable(false);
+        
+        //Creating the Bullet ArrayList
+        bullets = new ArrayList<Bullet>();
         
         //Creating the player character
         health = 100;
