@@ -20,7 +20,7 @@ public class Bullet extends JComponent
 	public Bullet()
 	{
 		bullet = new Ellipse2D.Double(0, 0, 15, 15);
-		setBounds(0, 0, 16, 16);
+		setBounds(50, 50, 16, 16);
 		dx = 0;
 		dy = 0;
 		color = Color.BLACK;

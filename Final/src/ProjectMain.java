@@ -29,8 +29,13 @@ public class ProjectMain extends JFrame implements ActionListener
         setResizable(false);
         
         //Creating the Bullet ArrayList
+        //Adding an example bullet to make sure bullet stuff works
         bullets = new ArrayList<Bullet>();
-        
+        bullets.add(new Bullet());
+        for(Bullet b : bullets)
+        {
+        	add(b);
+        }
         //Creating the player character
         health = 100;
         player = new Player(400, 400, health); //Location is just a placeholder
@@ -111,6 +116,7 @@ public class ProjectMain extends JFrame implements ActionListener
 						{
 							if(bullets.get(i).getHostile())
 							{
+								remove(bullets.get(i));
 								bullets.remove(i);
 								i--;
 							}
@@ -132,6 +138,13 @@ public class ProjectMain extends JFrame implements ActionListener
 	{
     	//Updating the player's location
 		player.update();
+		
+		for(Bullet b : bullets)
+		{
+			b.update();
+		}
+		
+		repaint();
 		
 		//Keeping the player within bounds
 		if(player.getX() < 0)
