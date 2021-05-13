@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.Timer;
@@ -16,19 +15,14 @@ public class ProjectMain extends JFrame implements ActionListener
 	//Creating Fields
 	private Player player;
 	private Timer t;
-	private ArrayList<Bullet> bullets;
 	private int health; //For if we decide to do multiple levels and want to transfer over health
-    //TODO add a label that tracks how many remaining screen clears there are
-	public ProjectMain()
+    public ProjectMain()
     {
         //Basic initialization
         setTitle("Placeholder Title");
         setBounds(100, 100, 800, 1000);
         setLayout(null);
         setResizable(false);
-        
-        //Creating the Bullet ArrayList
-        bullets = new ArrayList<Bullet>();
         
         //Creating the player character
         health = 100;
@@ -56,24 +50,23 @@ public class ProjectMain extends JFrame implements ActionListener
 			@Override
 			public void keyPressed(KeyEvent e) 
 			{
-				//Movement
 				if(e.getKeyCode() == KeyEvent.VK_W)
 				{
-					player.setDy(-4);
+					player.setDy(-6);
 				}
 				if(e.getKeyCode() == KeyEvent.VK_S)
 				{
-					player.setDy(4);
+					player.setDy(6);
 				}
 				if(e.getKeyCode() == KeyEvent.VK_A)
 				{
-					player.setDx(-4);
+					player.setDx(-6);
 				}
 				if(e.getKeyCode() == KeyEvent.VK_D)
 				{
-					player.setDx(4);
+					player.setDx(6);
 				}
-				//TODO add it so that pressing space fires
+				
 			}
 
 			@Override
@@ -96,19 +89,6 @@ public class ProjectMain extends JFrame implements ActionListener
 					player.setDx(0);
 				}
 				
-				//Uses a screen clear that removes all bullets onscreen. Only works if a screen clear is available.
-				if(e.getKeyCode() == KeyEvent.VK_SHIFT)
-				{
-					if(player.getScreenClears() > 0)
-					{
-						player.useScreenClear();
-						for(int i = 0; i < bullets.size(); i++)
-						{
-							bullets.remove(i);
-							i--;
-						}
-					}
-				}
 			}
 			
 		});
