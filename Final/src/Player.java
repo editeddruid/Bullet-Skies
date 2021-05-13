@@ -14,7 +14,7 @@ public class Player extends JComponent
 {
 	//Fields
 	private Rectangle2D.Double player;
-	private int dx, dy, health;
+	private int dx, dy, health, screenClears;
 	//Constructor
 	public Player(int x, int y, int health)
 	{
@@ -23,6 +23,7 @@ public class Player extends JComponent
 		dx = 0;
 		dy = 0;
 		this.health = health;
+		screenClears = 3;
 		setLocation(x,y);
 	}
 	//Painting the Component
@@ -46,6 +47,16 @@ public class Player extends JComponent
 	public void setHealth(int h)
 	{
 		health += h;
+	}
+	
+	//Using a screen clear
+	public int getScreenClears()
+	{
+		return screenClears;
+	}
+	public void useScreenClear()
+	{
+		screenClears --;
 	}
 	//Updating coordinates
 	public void update()

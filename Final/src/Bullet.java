@@ -7,7 +7,7 @@ import javax.swing.JComponent;
 
 /**
  * 
- * @author John
+ * @author John D'Arcy
  *
  */
 public class Bullet extends JComponent
