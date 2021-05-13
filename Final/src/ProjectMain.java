@@ -9,6 +9,7 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.Timer;
 
 public class ProjectMain extends JFrame implements ActionListener
@@ -18,7 +19,7 @@ public class ProjectMain extends JFrame implements ActionListener
 	private Timer t;
 	private ArrayList<Bullet> bullets;
 	private int health; //For if we decide to do multiple levels and want to transfer over health
-    //TODO add a label that tracks how many remaining screen clears there are
+	private JLabel remainingClears;
 	public ProjectMain()
     {
         //Basic initialization
@@ -35,6 +36,10 @@ public class ProjectMain extends JFrame implements ActionListener
         player = new Player(400, 400, health); //Location is just a placeholder
         add(player);
         
+        //Creating the remainingClears label
+        remainingClears = new JLabel("Remaining Clears: " + player.getScreenClears());
+        remainingClears.setBounds(100, 20, 150, 50);
+        add(remainingClears);
         //Adding the Timer
         t = new Timer(10, this);
         t.start();
@@ -107,6 +112,7 @@ public class ProjectMain extends JFrame implements ActionListener
 							bullets.remove(i);
 							i--;
 						}
+						remainingClears.setText("Remaining Clears: " + player.getScreenClears());
 					}
 				}
 			}
