@@ -2,6 +2,7 @@
  * @author John D'Arcy
  */
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -17,8 +18,10 @@ public class ProjectMain extends JFrame implements ActionListener
 	//Creating Fields
 	private Player player;
 	private Timer t;
-	private ArrayList<Bullet> bullets;
+	private ArrayList<Bullet> bullets, playerBullets;
+	private ArrayList<Enemy> enemies;
 	private int health; //For if we decide to do multiple levels and want to transfer over health
+	//TODO add a previous dx and dy so that the stopping thing doesn't happen
 	private JLabel remainingClears;
 	public ProjectMain()
     {
@@ -31,10 +34,18 @@ public class ProjectMain extends JFrame implements ActionListener
         //Creating the Bullet ArrayList
         //Adding an example bullet to make sure bullet stuff works
         bullets = new ArrayList<Bullet>();
+        playerBullets = new ArrayList<Bullet>();
         bullets.add(new Bullet());
         for(Bullet b : bullets)
         {
         	add(b);
+        }
+        //Adding an example enemy and enemy array list
+        enemies = new ArrayList<Enemy>();
+        enemies.add(new Enemy(200,200,100,20,20));
+        for(Enemy e : enemies)
+        {
+        	add(e);
         }
         //Creating the player character
         health = 100;
@@ -84,6 +95,12 @@ public class ProjectMain extends JFrame implements ActionListener
 					player.setDx(4);
 				}
 				//TODO add it so that pressing space fires
+				if(e.getKeyCode() == KeyEvent.VK_SPACE)
+				{
+					Bullet fired = new Bullet(player.getX() + 1, player.getY(), 0, -8, 2, 10, false, Color.BLUE);
+					playerBullets.add(fired);
+					add(fired);
+				} //TODO add a way to queue inputs so that you can fire while moving
 			}
 			@Override
 			public void keyReleased(KeyEvent e) 
@@ -139,9 +156,20 @@ public class ProjectMain extends JFrame implements ActionListener
     	//Updating the player's location
 		player.update();
 		
+		//Updating the bullets
 		for(Bullet b : bullets)
 		{
 			b.update();
+		}
+		for(int i = 0; i < playerBullets.size(); i++)
+		{
+			playerBullets.get(i).update();
+			if(playerBullets.get(i).getY() < 0)
+			{
+				remove(playerBullets.get(i));
+				playerBullets.remove(i);
+				i--;
+			}
 		}
 		
 		repaint();
