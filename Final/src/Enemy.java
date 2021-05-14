@@ -7,14 +7,14 @@ import javax.swing.JComponent;
 
 /**
  * 
- * @author Philip Melavila
+ * @author Philip Melavila and John D'Arcy
  *
  */
 public class Enemy extends JComponent {
 	
 	//Fields
 	private Rectangle2D.Double enemy;
-	private int dx, dy, health, width, height;
+	private int dx, dy, health, width, height, tick;
 	
 	//Constructor
 	public Enemy(int x, int y, int health, int width, int height) {
@@ -22,19 +22,26 @@ public class Enemy extends JComponent {
 		setSize(width + 1,height + 1);
 		dx = 0;
 		dy = 0;
+		tick = 0;
 		this.health = health;
 		setLocation(x,y);
 		
 	}
 	
 	
-	//Abstract Methods (Different for every enemy)
+	//Unique Methods (Different for every enemy)
 	public void move() {
 		
 	}
 	
-	public void shoot() {
-		
+	public Bullet shoot() {
+		tick++;
+		if(tick % 30 == 0)
+		{
+			return new Bullet(getX() + (width/2), getY() + height, 0, 2, 10, 10, true, Color.BLUE);
+		}
+		else
+			return null;
 	}
 	
 	public void paintComponent(Graphics g)

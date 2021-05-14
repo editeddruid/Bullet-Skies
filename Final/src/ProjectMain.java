@@ -51,7 +51,6 @@ public class ProjectMain extends JFrame implements ActionListener
         health = 100;
         player = new Player(400, 400, health); //Location is just a placeholder
         add(player);
-        
         //Creating the remainingClears label
         remainingClears = new JLabel("Remaining Clears: " + player.getScreenClears());
         remainingClears.setBounds(100, 20, 150, 50);
@@ -155,6 +154,18 @@ public class ProjectMain extends JFrame implements ActionListener
 	{
     	//Updating the player's location
 		player.update();
+		
+		//Updating the enemies
+		for(Enemy enem : enemies)
+		{
+			enem.update();
+			Bullet bull = enem.shoot();
+			if(bull != null)
+			{
+				bullets.add(bull);
+				add(bull);
+			}
+		}
 		
 		//Updating the bullets
 		for(Bullet b : bullets)

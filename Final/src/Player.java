@@ -43,6 +43,14 @@ public class Player extends JComponent
 	{
 		dy = y;
 	}
+	public int getDx()
+	{
+		return dx;
+	}
+	public int getDy()
+	{
+		return dy;
+	}
 	//Setting health
 	public void setHealth(int h)
 	{
