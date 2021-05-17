@@ -56,6 +56,10 @@ public class Player extends JComponent
 	{
 		health += h;
 	}
+	public int getHealth()
+	{
+		return health;
+	}
 	
 	//Using a screen clear
 	public int getScreenClears()

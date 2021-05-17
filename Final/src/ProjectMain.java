@@ -3,6 +3,7 @@
  */
 
 import java.awt.Color;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -23,7 +24,7 @@ public class ProjectMain extends JFrame implements ActionListener
 	private ArrayList<String> inputs;
 	private int health, tick; //For if we decide to do multiple levels and want to transfer over health
 	//TODO add a previous dx and dy so that the stopping thing doesn't happen
-	private JLabel remainingClears;
+	private JLabel remainingClears, remainingHealth;
 	public ProjectMain()
     {
         //Basic initialization
@@ -57,7 +58,10 @@ public class ProjectMain extends JFrame implements ActionListener
         //Creating the remainingClears label
         remainingClears = new JLabel("Remaining Clears: " + player.getScreenClears());
         remainingClears.setBounds(100, 20, 150, 50);
+        remainingHealth = new JLabel("Health: " + player.getHealth());
+        remainingHealth.setBounds(500, 20, 150, 50);
         add(remainingClears);
+        add(remainingHealth);
         //Adding the Timer
         t = new Timer(10, this);
         t.start();
@@ -85,25 +89,25 @@ public class ProjectMain extends JFrame implements ActionListener
 				{
 //					player.setDy(-4);
 					if(!inputs.contains("W"))
-						inputs.add(0, "W");
+						inputs.add("W");
 				}
 				if(e.getKeyCode() == KeyEvent.VK_S)
 				{
 //					player.setDy(4);
 					if(!inputs.contains("S"))
-						inputs.add(0, "S");
+						inputs.add("S");
 				}
 				if(e.getKeyCode() == KeyEvent.VK_A)
 				{
 //					player.setDx(-4);
 					if(!inputs.contains("A"))
-						inputs.add(0, "A");
+						inputs.add("A");
 				}
 				if(e.getKeyCode() == KeyEvent.VK_D)
 				{
 //					player.setDx(4);
 					if(!inputs.contains("D"))
-						inputs.add(0, "D");
+						inputs.add("D");
 				}
 				//TODO add it so that pressing space fires
 				if(e.getKeyCode() == KeyEvent.VK_SPACE)
@@ -112,7 +116,7 @@ public class ProjectMain extends JFrame implements ActionListener
 //					playerBullets.add(fired);
 //					add(fired);
 					if(!inputs.contains("Space"))
-						inputs.add(0, "Space");
+						inputs.add("Space");
 				} //TODO add a way to queue inputs so that you can fire while moving
 			}
 			@Override
@@ -207,11 +211,20 @@ public class ProjectMain extends JFrame implements ActionListener
     	//Updating the player's location
 		player.update();
 		//Updating the enemies
-		for(Enemy enem : enemies)
+		for(int enem = 0; enem < enemies.size(); enem ++)
 		{
-			enem.move();
-			enem.update();
-			Bullet bull = enem.shoot();
+			//Checking to see if the enemy is dead
+			if(enemies.get(enem).getHealth() <= 0)
+			{
+				remove(enemies.get(enem));
+				enemies.remove(enem);
+				enem --;
+				continue;
+			}
+			//Moving and shooting
+			enemies.get(enem).move();
+			enemies.get(enem).update();
+			Bullet bull = enemies.get(enem).shoot();
 			if(bull != null)
 			{
 				bullets.add(bull);
@@ -219,13 +232,44 @@ public class ProjectMain extends JFrame implements ActionListener
 			}
 		}
 		//Updating the bullets
-		for(Bullet b : bullets)
+		for(int b = 0; b < bullets.size(); b++)
 		{
-			b.update();
+			bullets.get(b).update();
+			Rectangle r1 = new Rectangle(bullets.get(b).getX(), bullets.get(b).getY(), 
+			bullets.get(b).getWidth(), bullets.get(b).getHeight());
+			Rectangle r2 = new Rectangle(player.getX(), player.getY(), 
+			player.getWidth(), player.getHeight());
+			if(r1.intersects(r2))
+			{
+				player.setHealth(bullets.get(b).getDamage() * -1);
+				remainingHealth.setText("Health: " + player.getHealth());
+				remove(bullets.get(b));
+				bullets.remove(b);
+				b --;
+			}
 		}
 		for(int i = 0; i < playerBullets.size(); i++)
 		{
 			playerBullets.get(i).update();
+			for(int enem = 0; enem < enemies.size(); enem ++)
+			{
+				Rectangle r1 = new Rectangle(playerBullets.get(i).getX(), playerBullets.get(i).getY(), 
+				playerBullets.get(i).getWidth(), playerBullets.get(i).getHeight());
+				Rectangle r2 = new Rectangle(enemies.get(enem).getX(), enemies.get(enem).getY(), 
+				enemies.get(enem).getWidth(), enemies.get(enem).getHeight());
+				if(r1.intersects(r2))
+				{
+					System.out.print("Collision");
+					enemies.get(enem).setHealth(playerBullets.get(i).getDamage() * -1);
+					remove(playerBullets.get(i));
+					playerBullets.remove(i);
+					i--;
+				}
+			}
+		} //TODO fix whatever is wrong with this code
+		for(int i = 0; i < playerBullets.size(); i++)
+		{
+			//Removing bullets that are off the screen
 			if(playerBullets.get(i).getY() < 0)
 			{
 				remove(playerBullets.get(i));
