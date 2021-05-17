@@ -43,7 +43,7 @@ public class ProjectMain extends JFrame implements ActionListener
         }
         //Adding an example enemy and enemy array list
         enemies = new ArrayList<Enemy>();
-        enemies.add(new Enemy(200,200,100,20,20));
+        enemies.add(new Enemy(200,200,100,20,20,0));
         for(Enemy e : enemies)
         {
         	add(e);
@@ -85,25 +85,25 @@ public class ProjectMain extends JFrame implements ActionListener
 				{
 //					player.setDy(-4);
 					if(!inputs.contains("W"))
-						inputs.add("W");
+						inputs.add(0, "W");
 				}
 				if(e.getKeyCode() == KeyEvent.VK_S)
 				{
 //					player.setDy(4);
 					if(!inputs.contains("S"))
-						inputs.add("S");
+						inputs.add(0, "S");
 				}
 				if(e.getKeyCode() == KeyEvent.VK_A)
 				{
 //					player.setDx(-4);
 					if(!inputs.contains("A"))
-						inputs.add("A");
+						inputs.add(0, "A");
 				}
 				if(e.getKeyCode() == KeyEvent.VK_D)
 				{
 //					player.setDx(4);
 					if(!inputs.contains("D"))
-						inputs.add("D");
+						inputs.add(0, "D");
 				}
 				//TODO add it so that pressing space fires
 				if(e.getKeyCode() == KeyEvent.VK_SPACE)
@@ -112,7 +112,7 @@ public class ProjectMain extends JFrame implements ActionListener
 //					playerBullets.add(fired);
 //					add(fired);
 					if(!inputs.contains("Space"))
-						inputs.add("Space");
+						inputs.add(0, "Space");
 				} //TODO add a way to queue inputs so that you can fire while moving
 			}
 			@Override
@@ -209,6 +209,7 @@ public class ProjectMain extends JFrame implements ActionListener
 		//Updating the enemies
 		for(Enemy enem : enemies)
 		{
+			enem.move();
 			enem.update();
 			Bullet bull = enem.shoot();
 			if(bull != null)
