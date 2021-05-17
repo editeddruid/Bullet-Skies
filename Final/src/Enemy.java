@@ -14,15 +14,16 @@ public class Enemy extends JComponent {
 	
 	//Fields
 	private Rectangle2D.Double enemy;
-	private int dx, dy, health, width, height, tick;
+	private int dx, dy, health, width, height, tick, pattern;
 	
 	//Constructor
-	public Enemy(int x, int y, int health, int width, int height) {
+	public Enemy(int x, int y, int health, int width, int height, int pattern) {
 		enemy = new Rectangle2D.Double(0,0,width,height);
 		setSize(width + 1,height + 1);
 		dx = 0;
 		dy = 0;
 		tick = 0;
+		this.pattern = pattern; 
 		this.health = health;
 		setLocation(x,y);
 		
@@ -31,7 +32,22 @@ public class Enemy extends JComponent {
 	
 	//Unique Methods (Different for every enemy)
 	public void move() {
-		
+		if (pattern == 0) {
+			if (tick == 0) {
+					setDx(-2);
+			}
+
+			if (getX() < 0) {
+				setLocation(0,getY());
+				setDx(2);
+			}
+			if (getX() > 780 - getWidth()) {
+				setLocation(780 - getWidth(),getY());
+				setDx(-2);
+				
+			}
+				
+		}
 	}
 	
 	public Bullet shoot() {
