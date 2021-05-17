@@ -219,6 +219,7 @@ public class ProjectMain extends JFrame implements ActionListener
 				remove(enemies.get(enem));
 				enemies.remove(enem);
 				enem --;
+				continue;
 			}
 			//Moving and shooting
 			enemies.get(enem).move();
@@ -240,7 +241,6 @@ public class ProjectMain extends JFrame implements ActionListener
 			player.getWidth(), player.getHeight());
 			if(r1.intersects(r2))
 			{
-				System.out.print("Collision");
 				player.setHealth(bullets.get(b).getDamage() * -1);
 				remainingHealth.setText("Health: " + player.getHealth());
 				remove(bullets.get(b));
@@ -248,28 +248,27 @@ public class ProjectMain extends JFrame implements ActionListener
 				b --;
 			}
 		}
-//		for(int i = 0; i < playerBullets.size(); i++)
-//		{
-//			playerBullets.get(i).update();
-//			for(int enem = 0; enem < enemies.size(); enem ++)
-//			{
-//				Rectangle r1 = new Rectangle(playerBullets.get(i).getX(), playerBullets.get(i).getY(), 
-//				playerBullets.get(i).getWidth(), playerBullets.get(i).getHeight());
-//				Rectangle r2 = new Rectangle(enemies.get(enem).getX(), enemies.get(enem).getY(), 
-//				enemies.get(enem).getWidth(), enemies.get(enem).getHeight());
-//				if(r1.intersects(r2))
-//				{
-//					System.out.print("Collision");
-//					enemies.get(enem).setHealth(playerBullets.get(i).getDamage() * -1);
-//					remove(playerBullets.get(i));
-//					playerBullets.remove(i);
-//					i--;
-//				}
-//			}
-//		} TODO fix whatever is wrong with this code
 		for(int i = 0; i < playerBullets.size(); i++)
 		{
 			playerBullets.get(i).update();
+			for(int enem = 0; enem < enemies.size(); enem ++)
+			{
+				Rectangle r1 = new Rectangle(playerBullets.get(i).getX(), playerBullets.get(i).getY(), 
+				playerBullets.get(i).getWidth(), playerBullets.get(i).getHeight());
+				Rectangle r2 = new Rectangle(enemies.get(enem).getX(), enemies.get(enem).getY(), 
+				enemies.get(enem).getWidth(), enemies.get(enem).getHeight());
+				if(r1.intersects(r2))
+				{
+					System.out.print("Collision");
+					enemies.get(enem).setHealth(playerBullets.get(i).getDamage() * -1);
+					remove(playerBullets.get(i));
+					playerBullets.remove(i);
+					i--;
+				}
+			}
+		} //TODO fix whatever is wrong with this code
+		for(int i = 0; i < playerBullets.size(); i++)
+		{
 			//Removing bullets that are off the screen
 			if(playerBullets.get(i).getY() < 0)
 			{
