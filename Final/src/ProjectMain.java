@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 public class ProjectMain extends JFrame implements ActionListener
@@ -296,6 +297,13 @@ public class ProjectMain extends JFrame implements ActionListener
 		if(player.getY() > 960)
 		{
 			player.setLocation(player.getX(), 960);
+		}
+		//Checking to see if the player dies
+		if(player.getHealth() <= 0)
+		{
+			player.setVisible(false);
+			t.stop();
+			JOptionPane.showMessageDialog(null, "Game Over"); //TODO Implement without JOptionPane
 		}
 	}
 }
