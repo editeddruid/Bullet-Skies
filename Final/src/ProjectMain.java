@@ -85,25 +85,25 @@ public class ProjectMain extends JFrame implements ActionListener
 				{
 //					player.setDy(-4);
 					if(!inputs.contains("W"))
-						inputs.add(0, "W");
+						inputs.add("W");
 				}
 				if(e.getKeyCode() == KeyEvent.VK_S)
 				{
 //					player.setDy(4);
 					if(!inputs.contains("S"))
-						inputs.add(0, "S");
+						inputs.add("S");
 				}
 				if(e.getKeyCode() == KeyEvent.VK_A)
 				{
 //					player.setDx(-4);
 					if(!inputs.contains("A"))
-						inputs.add(0, "A");
+						inputs.add("A");
 				}
 				if(e.getKeyCode() == KeyEvent.VK_D)
 				{
 //					player.setDx(4);
 					if(!inputs.contains("D"))
-						inputs.add(0, "D");
+						inputs.add("D");
 				}
 				//TODO add it so that pressing space fires
 				if(e.getKeyCode() == KeyEvent.VK_SPACE)
@@ -112,7 +112,7 @@ public class ProjectMain extends JFrame implements ActionListener
 //					playerBullets.add(fired);
 //					add(fired);
 					if(!inputs.contains("Space"))
-						inputs.add(0, "Space");
+						inputs.add("Space");
 				} //TODO add a way to queue inputs so that you can fire while moving
 			}
 			@Override
