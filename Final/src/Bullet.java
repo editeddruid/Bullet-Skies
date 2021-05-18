@@ -7,7 +7,7 @@ import javax.swing.JComponent;
 
 /**
  * 
- * @author John D'Arcy
+ * @author John D'Arcy and Philip Melavila
  *
  */
 public class Bullet extends JComponent
@@ -16,6 +16,8 @@ public class Bullet extends JComponent
 	private int dx, dy, size, damage;
 	private Color color;
 	private Boolean hostile;
+	private int curve;
+	private int tick = 0;
 	//Basic constructor
 	public Bullet()
 	{
@@ -28,7 +30,7 @@ public class Bullet extends JComponent
 		hostile = true;
 	}
 	//More advanced constructor
-	public Bullet(int x, int y, int dx, int dy, int size, int damage, boolean hostile, Color color)
+	public Bullet(int x, int y, int dx, int dy, int size, int damage, boolean hostile, Color color, int curve)
 	{
 		bullet = new Ellipse2D.Double(0, 0, size, size);
 		setBounds(x, y, size+1, size+1);
@@ -37,6 +39,7 @@ public class Bullet extends JComponent
 		this.color = color;
 		this.damage = damage;
 		this.hostile = hostile;
+		this.curve = curve;
 	}
 	//Paint
 	public void paintComponent(Graphics g)
@@ -71,6 +74,12 @@ public class Bullet extends JComponent
 	public boolean getHostile()
 	{
 		return hostile;
+	}
+	
+	public void curve() {
+		tick++;
+		if (tick % 100 == 0)
+			dx -= curve;
 	}
 	//Update location
 	public void update()
