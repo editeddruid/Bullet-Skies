@@ -45,7 +45,7 @@ public class ProjectMain extends JFrame implements ActionListener
         }
         //Adding an example enemy and enemy array list
         enemies = new ArrayList<Enemy>();
-        enemies.add(new Enemy(200,200,100,20,20,0));
+        enemies.add(new Enemy(200,200,50,20,20,0));
         for(Enemy e : enemies)
         {
         	add(e);
@@ -203,7 +203,7 @@ public class ProjectMain extends JFrame implements ActionListener
     		{
     			if(tick % 10 == 0)
     			{
-    				Bullet fired = new Bullet(player.getX() + 1, player.getY(), 0, -8, 2, 10, false, Color.BLUE);
+    				Bullet fired = new Bullet(player.getX() + 1, player.getY(), 0, -10, 3, 10, false, Color.BLUE);
     				playerBullets.add(fired);
     				add(fired);
     			}
@@ -260,7 +260,6 @@ public class ProjectMain extends JFrame implements ActionListener
 				enemies.get(enem).getWidth(), enemies.get(enem).getHeight());
 				if(r1.intersects(r2))
 				{
-					System.out.print("Collision");
 					enemies.get(enem).setHealth(playerBullets.get(i).getDamage() * -1);
 					remove(playerBullets.get(i));
 					playerBullets.remove(i);
