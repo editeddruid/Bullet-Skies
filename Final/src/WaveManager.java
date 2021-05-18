@@ -32,6 +32,6 @@ public class WaveManager
 		else if(wave == 4)
 			return wave4;
 		else
-			return wave1;
+			return null;
 	}
 }
