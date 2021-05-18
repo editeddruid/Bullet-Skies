@@ -189,7 +189,7 @@ public class ProjectMain extends JFrame implements ActionListener
         			enemies.add(newEnem);
         			add(newEnem);
         		}
-        		System.out.print("ADDED");
+//        		System.out.print("ADDED");
     		}
     	}
     	//Iterating over inputs
