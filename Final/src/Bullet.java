@@ -15,8 +15,8 @@ public class Bullet extends JComponent
 	private Ellipse2D.Double bullet;
 	private int dx, dy, size, damage;
 	private Color color;
-	private Boolean hostile;
-	private int curve;
+	private Boolean hostile, upOrDown;
+	private int curve, maxCurve;
 	private int tick = 0;
 	//Basic constructor
 	public Bullet()
@@ -39,7 +39,9 @@ public class Bullet extends JComponent
 		this.color = color;
 		this.damage = damage;
 		this.hostile = hostile;
-		this.curve = curve;
+		maxCurve = curve;
+		curve = 0;
+		upOrDown = true;
 	}
 	//Paint
 	public void paintComponent(Graphics g)
@@ -75,15 +77,25 @@ public class Bullet extends JComponent
 	{
 		return hostile;
 	}
-	
-	public void curve() {
-		tick++;
-		if (tick % 100 == 0)
-			dx -= curve;
-	}
 	//Update location
 	public void update()
 	{
-		setLocation(getX() + dx, getY() + dy);
+		tick++;
+		if(maxCurve != 0)
+		{
+			if(curve == maxCurve)
+				upOrDown = false;
+			if(curve == maxCurve * -1)
+				upOrDown = true;
+			if (tick % 10 == 0 && upOrDown)
+			{
+				curve++;
+			}
+			else if(tick % 10 == 0 && !upOrDown)
+			{
+				curve--;
+			}
+		}
+		setLocation(getX() + dx + curve, getY() + dy);
 	}
 }
