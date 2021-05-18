@@ -23,8 +23,8 @@ public class ProjectMain extends JFrame implements ActionListener
 	private ArrayList<Bullet> bullets, playerBullets;
 	private ArrayList<Enemy> enemies;
 	private ArrayList<String> inputs;
-	private int health, tick; //For if we decide to do multiple levels and want to transfer over health
-	//TODO add a previous dx and dy so that the stopping thing doesn't happen
+	private WaveManager manager;
+	private int health, tick, currentWave; //For if we decide to do multiple levels and want to transfer over health
 	private JLabel remainingClears, remainingHealth;
 	public ProjectMain()
     {
@@ -33,7 +33,9 @@ public class ProjectMain extends JFrame implements ActionListener
         setBounds(100, 100, 800, 1000);
         setLayout(null);
         setResizable(false);
-        
+        //Adding the WaveManager
+        manager = new WaveManager();
+        currentWave = 1;
         //Creating the Bullet ArrayList
         //Adding an example bullet to make sure bullet stuff works
         bullets = new ArrayList<Bullet>();
@@ -180,30 +182,42 @@ public class ProjectMain extends JFrame implements ActionListener
 	public void actionPerformed(ActionEvent e) 
 	{
     	tick ++;
+    	//Adding waves
+    	if(tick % 1000 == 0)
+    	{
+    		ArrayList<Enemy> newWave = manager.getWave(currentWave);
+    		currentWave ++;
+    		for(int enem = 0; enem < newWave.size(); enem++)
+    		{
+    			Enemy newEnem = newWave.get(enem);
+    			enemies.add(newEnem);
+    			add(newEnem);
+    		}
+    	}
     	//Iterating over inputs
     	for(String i : inputs)
     	{
     		if(i == "W")
     		{
-    			player.setDy(-4);
+    			player.setDy(-2);
     		}
     		if(i == "S")
     		{
-    			player.setDy(4);
+    			player.setDy(2);
     		}
     		if(i == "A")
     		{
-    			player.setDx(-4);
+    			player.setDx(-2);
     		}
     		if(i == "D")
     		{
-    			player.setDx(4);
+    			player.setDx(2);
     		}
     		if(i == "Space")
     		{
     			if(tick % 10 == 0)
     			{
-    				Bullet fired = new Bullet(player.getX() + 1, player.getY(), 0, -8, 2, 10, false, Color.BLUE, 0);
+    				Bullet fired = new Bullet(player.getX() + 1, player.getY(), 0, -10, 3, 10, false, Color.BLUE, 0);
     				playerBullets.add(fired);
     				add(fired);
     			}
@@ -249,22 +263,20 @@ public class ProjectMain extends JFrame implements ActionListener
 				b --;
 			}
 		}
-		for(int i = 0; i < playerBullets.size(); i++)
+		for(int i = playerBullets.size() - 1; i >= 0; i--)
 		{
 			playerBullets.get(i).update();
+			Rectangle r1 = new Rectangle(playerBullets.get(i).getX(), playerBullets.get(i).getY(), 
+			playerBullets.get(i).getWidth(), playerBullets.get(i).getHeight());
 			for(int enem = 0; enem < enemies.size(); enem ++)
 			{
-				Rectangle r1 = new Rectangle(playerBullets.get(i).getX(), playerBullets.get(i).getY(), 
-				playerBullets.get(i).getWidth(), playerBullets.get(i).getHeight());
 				Rectangle r2 = new Rectangle(enemies.get(enem).getX(), enemies.get(enem).getY(), 
 				enemies.get(enem).getWidth(), enemies.get(enem).getHeight());
 				if(r1.intersects(r2))
 				{
-					System.out.print("Collision");
 					enemies.get(enem).setHealth(playerBullets.get(i).getDamage() * -1);
 					remove(playerBullets.get(i));
 					playerBullets.remove(i);
-					i--;
 				}
 			}
 		} //TODO fix whatever is wrong with this code
