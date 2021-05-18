@@ -187,11 +187,15 @@ public class ProjectMain extends JFrame implements ActionListener
     	{
     		ArrayList<Enemy> newWave = manager.getWave(currentWave);
     		currentWave ++;
-    		for(int enem = 0; enem < newWave.size(); enem++)
+    		if(newWave != null)
     		{
-    			Enemy newEnem = newWave.get(enem);
-    			enemies.add(newEnem);
-    			add(newEnem);
+    			for(int enem = 0; enem < newWave.size(); enem++)
+        		{
+        			Enemy newEnem = newWave.get(enem);
+        			enemies.add(newEnem);
+        			add(newEnem);
+        		}
+        		System.out.print("ADDED");
     		}
     	}
     	//Iterating over inputs
@@ -247,8 +251,15 @@ public class ProjectMain extends JFrame implements ActionListener
 			}
 		}
 		//Updating the bullets
-		for(int b = 0; b < bullets.size(); b++)
+		for(int b = 0; b < bullets.size(); b++) //TODO delete offscreen bullets
 		{
+			if(bullets.get(b).getY() > 1000)
+			{
+				remove(bullets.get(b));
+				bullets.remove(b);
+				b--;
+				continue;
+			}
 			bullets.get(b).update();
 			Rectangle r1 = new Rectangle(bullets.get(b).getX(), bullets.get(b).getY(), 
 			bullets.get(b).getWidth(), bullets.get(b).getHeight());
