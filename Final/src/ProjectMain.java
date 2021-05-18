@@ -37,14 +37,8 @@ public class ProjectMain extends JFrame implements ActionListener
         manager = new WaveManager();
         currentWave = 1;
         //Creating the Bullet ArrayList
-        //Adding an example bullet to make sure bullet stuff works
         bullets = new ArrayList<Bullet>();
         playerBullets = new ArrayList<Bullet>();
-        bullets.add(new Bullet());
-        for(Bullet b : bullets)
-        {
-        	add(b);
-        }
         //Adding an example enemy and enemy array list
         enemies = new ArrayList<Enemy>();
         enemies.add(new Enemy(200,200,100,20,20,0));
@@ -195,7 +189,7 @@ public class ProjectMain extends JFrame implements ActionListener
         			enemies.add(newEnem);
         			add(newEnem);
         		}
-        		System.out.print("ADDED");
+//        		System.out.print("ADDED");
     		}
     	}
     	//Iterating over inputs
