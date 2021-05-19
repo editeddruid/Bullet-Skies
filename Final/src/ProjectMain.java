@@ -177,21 +177,36 @@ public class ProjectMain extends JFrame implements ActionListener
 	{
     	tick ++;
     	//Adding waves
-    	if(tick % 1000 == 0)
+    	if(enemies.size() == 0)
     	{
-    		ArrayList<Enemy> newWave = manager.getWave(currentWave);
     		currentWave ++;
+    		ArrayList<Enemy> newWave = manager.newWave(currentWave);
     		if(newWave != null)
-    		{
-    			for(int enem = 0; enem < newWave.size(); enem++)
         		{
-        			Enemy newEnem = newWave.get(enem);
-        			enemies.add(newEnem);
-        			add(newEnem);
+        			for(int enem = 0; enem < newWave.size(); enem++)
+            		{
+            			Enemy newEnem = newWave.get(enem);
+            			enemies.add(newEnem);
+            			add(newEnem);
+            		}
+//            		System.out.print("ADDED");
         		}
-//        		System.out.print("ADDED");
-    		}
     	}
+//    	if(tick % 1000 == 0)
+//    	{
+//    		ArrayList<Enemy> newWave = manager.getWave(currentWave);
+//    		currentWave ++;
+//    		if(newWave != null)
+//    		{
+//    			for(int enem = 0; enem < newWave.size(); enem++)
+//        		{
+//        			Enemy newEnem = newWave.get(enem);
+//        			enemies.add(newEnem);
+//        			add(newEnem);
+//        		}
+////        		System.out.print("ADDED");
+//    		}
+//    	}
     	//Iterating over inputs
     	for(String i : inputs)
     	{
@@ -247,7 +262,7 @@ public class ProjectMain extends JFrame implements ActionListener
 		//Updating the bullets
 		for(int b = 0; b < bullets.size(); b++) //TODO delete offscreen bullets
 		{
-			if(bullets.get(b).getY() > 1000)
+			if(bullets.get(b).getY() > 1000 || bullets.get(b).getX() < -50 || bullets.get(b).getX() > 900)
 			{
 				remove(bullets.get(b));
 				bullets.remove(b);
@@ -284,7 +299,7 @@ public class ProjectMain extends JFrame implements ActionListener
 					playerBullets.remove(i);
 				}
 			}
-		} //TODO fix whatever is wrong with this code
+		}
 		for(int i = 0; i < playerBullets.size(); i++)
 		{
 			//Removing bullets that are off the screen

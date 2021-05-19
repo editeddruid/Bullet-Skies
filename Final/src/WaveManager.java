@@ -6,16 +6,17 @@ import java.util.ArrayList;
  */
 public class WaveManager 
 {
-	private ArrayList<Enemy> wave1, wave2, wave3, wave4;
+	private ArrayList<Enemy> wave, wave1, wave2, wave3, wave4;
 	public WaveManager()
 	{
+		wave = new ArrayList<Enemy>();
 		wave1 = new ArrayList<Enemy>();
 		wave2 = new ArrayList<Enemy>();
 		wave3 = new ArrayList<Enemy>();
 		wave4 = new ArrayList<Enemy>();
 		for(int i = 0; i < 5; i ++)
 		{
-			wave1.add(new Enemy(400 + i * 40, 150 + i * 20, 50, 20, 20, 0));
+			wave1.add(new Enemy(100 + i * 40, 150 + i * 20, 50, 20, 20, 0));
 			wave2.add(new Enemy(400 + i * 40, 150 + i * 20, 50, 20, 20, 0));
 			wave3.add(new Enemy(400 + i * 40, 150 + i * 20, 50, 20, 20, 0));
 			wave4.add(new Enemy(400 + i * 40, 150 + i * 20, 50, 20, 20, 0));
@@ -33,5 +34,17 @@ public class WaveManager
 			return wave4;
 		else
 			return null;
+	}
+	public ArrayList<Enemy> newWave(int currentWave)
+	{
+		if(currentWave < 8)
+		{
+			for(int i = 0; i < currentWave + 2; i++)
+			{
+				wave.add(new Enemy(260 + i * 40, 150 + (int) (Math.random() * (20 - -20) + -20), 20, 20, 20, 0));
+				wave.add(new Enemy(840 - (i * 40), 150 + (int) (Math.random() * (20 - -20) + -20), 20, 20, 20, 0));
+			}
+		}
+		return wave;
 	}
 }

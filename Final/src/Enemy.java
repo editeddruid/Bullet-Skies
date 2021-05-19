@@ -51,7 +51,6 @@ public class Enemy extends JComponent {
 	}
 	
 	public Bullet shoot() {
-		tick++;
 		if(tick % 25 == 0)
 		{
 			return new Bullet(getX() + (width/2), getY() + height, 0, (int) (Math.random() * 4) + 1, 10, 10, true, Color.BLUE, 0);
@@ -98,6 +97,7 @@ public class Enemy extends JComponent {
 	}
 	
 	public void update() {
+		tick ++;
 		setLocation(getX() + dx, getY() + dy);
 	}
 	
