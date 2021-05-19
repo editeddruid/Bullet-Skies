@@ -41,6 +41,7 @@ public class WaveManager
 		{
 			for(int i = 0; i < currentWave + 2; i++)
 			{
+				wave.add(new Enemy(120 + i * 40, 150 + (int) (Math.random() * (20 - -20) + -20), 20, 20, 20, 0));
 				wave.add(new Enemy(260 + i * 40, 150 + (int) (Math.random() * (20 - -20) + -20), 20, 20, 20, 0));
 				wave.add(new Enemy(560 + (i * 40), 150 + (int) (Math.random() * (20 - -20) + -20), 20, 20, 20, 0));
 			}
