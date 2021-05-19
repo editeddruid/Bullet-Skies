@@ -56,7 +56,9 @@ public class Enemy extends JComponent {
 		if(tick % 25 == 0)
 		{
 			if(bullets.size() == 0)
-				bullets.add(new Bullet(getX() + (width/2), getY() + height, 0, (int) (Math.random() * 4) + 1, 10, 10, true, Color.BLUE, 0));
+			{
+				bullets.add(new Bullet(getX() + (width/2), getY() - height, 0, (int) (Math.random() * 4) + 1, 10, 10, true, Color.BLUE, 0));
+			}
 			return bullets;
 		}
 		else
