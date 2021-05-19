@@ -179,6 +179,19 @@ public class ProjectMain extends JFrame implements ActionListener
     		ArrayList<Enemy> newWave = manager.newWave(currentWave);
     		if(newWave != null)
         		{
+    				if(currentWave == 8)
+    				{
+    					player.setLocation(400, 500);
+    					for(int i = 0; i < bullets.size(); i++)
+						{
+							if(bullets.get(i).getHostile())
+							{
+								remove(bullets.get(i));
+								bullets.remove(i);
+								i--;
+							}
+						}
+    				}
         			for(int enem = 0; enem < newWave.size(); enem++)
             		{
             			Enemy newEnem = newWave.get(enem);
@@ -233,9 +246,9 @@ public class ProjectMain extends JFrame implements ActionListener
 			//Moving and shooting
 			enemies.get(enem).move();
 			enemies.get(enem).update();
-			if(enemies.get(enem).shoot() != null)
+			newBullets = enemies.get(enem).shoot();
+			if(newBullets != null)
 			{
-				newBullets = enemies.get(enem).shoot();
 				for(int i = 0; i < newBullets.size(); i++)
 				{
 					Bullet bull = newBullets.get(i);
@@ -246,7 +259,7 @@ public class ProjectMain extends JFrame implements ActionListener
 						bullets.add(bull);
 						add(bull);
 					}
-				}
+				} //TODO Tell Philip about the stacked shots
 			}
 		}
 		//Updating the bullets

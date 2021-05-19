@@ -45,6 +45,14 @@ public class WaveManager
 				wave.add(new Enemy(560 + (i * 40), 150 + (int) (Math.random() * (20 - -20) + -20), 20, 20, 20, 0));
 			}
 		}
+		else if(currentWave == 8)
+		{
+			wave.add(new BossEnemy(100, 100, 2000, 600, 200, 0));
+		}
+		else
+		{
+			wave.add(new Enemy(500 + (int) (Math.random() * 160) - 80, 150 + (int) (Math.random() * (40) -20), 20, 20, 20, 0));
+		}
 		return wave;
 	}
 }
