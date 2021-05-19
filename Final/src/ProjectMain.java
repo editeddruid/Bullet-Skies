@@ -20,7 +20,7 @@ public class ProjectMain extends JFrame implements ActionListener
 	//Creating Fields
 	private Player player;
 	private Timer t;
-	private ArrayList<Bullet> bullets, playerBullets;
+	private ArrayList<Bullet> bullets, playerBullets, newBullets;
 	private ArrayList<Enemy> enemies;
 	private ArrayList<String> inputs;
 	private WaveManager manager;
@@ -39,6 +39,7 @@ public class ProjectMain extends JFrame implements ActionListener
         //Creating the Bullet ArrayList
         bullets = new ArrayList<Bullet>();
         playerBullets = new ArrayList<Bullet>();
+        newBullets = new ArrayList<Bullet>();
         //Adding an example enemy and enemy array list
         enemies = new ArrayList<Enemy>();
         enemies.add(new Enemy(200,200,100,20,20,0));
@@ -72,11 +73,7 @@ public class ProjectMain extends JFrame implements ActionListener
 		addKeyListener(new KeyListener() 
 		{
 			@Override
-			public void keyTyped(KeyEvent e) 
-			{
-				// TODO Auto-generated method stub
-				
-			}
+			public void keyTyped(KeyEvent e) {}
 
 			@Override
 			public void keyPressed(KeyEvent e) 
@@ -106,7 +103,6 @@ public class ProjectMain extends JFrame implements ActionListener
 					if(!inputs.contains("D"))
 						inputs.add("D");
 				}
-				//TODO add it so that pressing space fires
 				if(e.getKeyCode() == KeyEvent.VK_SPACE)
 				{
 //					Bullet fired = new Bullet(player.getX() + 1, player.getY(), 0, -8, 2, 10, false, Color.BLUE);
@@ -114,7 +110,7 @@ public class ProjectMain extends JFrame implements ActionListener
 //					add(fired);
 					if(!inputs.contains("Space"))
 						inputs.add("Space");
-				} //TODO add a way to queue inputs so that you can fire while moving
+				} 
 			}
 			@Override
 			public void keyReleased(KeyEvent e) 
@@ -192,21 +188,6 @@ public class ProjectMain extends JFrame implements ActionListener
 //            		System.out.print("ADDED");
         		}
     	}
-//    	if(tick % 1000 == 0)
-//    	{
-//    		ArrayList<Enemy> newWave = manager.getWave(currentWave);
-//    		currentWave ++;
-//    		if(newWave != null)
-//    		{
-//    			for(int enem = 0; enem < newWave.size(); enem++)
-//        		{
-//        			Enemy newEnem = newWave.get(enem);
-//        			enemies.add(newEnem);
-//        			add(newEnem);
-//        		}
-////        		System.out.print("ADDED");
-//    		}
-//    	}
     	//Iterating over inputs
     	for(String i : inputs)
     	{
@@ -252,15 +233,24 @@ public class ProjectMain extends JFrame implements ActionListener
 			//Moving and shooting
 			enemies.get(enem).move();
 			enemies.get(enem).update();
-			Bullet bull = enemies.get(enem).shoot();
-			if(bull != null)
+			if(enemies.get(enem).shoot() != null)
 			{
-				bullets.add(bull);
-				add(bull);
+				newBullets = enemies.get(enem).shoot();
+				for(int i = 0; i < newBullets.size(); i++)
+				{
+					Bullet bull = newBullets.get(i);
+					newBullets.remove(i);
+					i--;
+					if(bull != null)
+					{
+						bullets.add(bull);
+						add(bull);
+					}
+				}
 			}
 		}
 		//Updating the bullets
-		for(int b = 0; b < bullets.size(); b++) //TODO delete offscreen bullets
+		for(int b = 0; b < bullets.size(); b++)
 		{
 			if(bullets.get(b).getY() > 1000 || bullets.get(b).getX() < -50 || bullets.get(b).getX() > 900)
 			{

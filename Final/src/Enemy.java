@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import javax.swing.JComponent;
 
@@ -15,6 +16,7 @@ public class Enemy extends JComponent {
 	//Fields
 	private Rectangle2D.Double enemy;
 	private int dx, dy, health, width, height, tick, pattern;
+	private ArrayList<Bullet> bullets;
 	
 	//Constructor
 	public Enemy(int x, int y, int health, int width, int height, int pattern) {
@@ -25,8 +27,8 @@ public class Enemy extends JComponent {
 		tick = 0;
 		this.pattern = pattern; 
 		this.health = health;
+		bullets = new ArrayList<Bullet>();
 		setLocation(x,y);
-		
 	}
 	
 	
@@ -50,10 +52,12 @@ public class Enemy extends JComponent {
 		}
 	}
 	
-	public Bullet shoot() {
+	public ArrayList<Bullet> shoot() {
 		if(tick % 25 == 0)
 		{
-			return new Bullet(getX() + (width/2), getY() + height, 0, (int) (Math.random() * 4) + 1, 10, 10, true, Color.BLUE, 0);
+			if(bullets.size() == 0)
+				bullets.add(new Bullet(getX() + (width/2), getY() + height, 0, (int) (Math.random() * 4) + 1, 10, 10, true, Color.BLUE, 0));
+			return bullets;
 		}
 		else
 			return null;

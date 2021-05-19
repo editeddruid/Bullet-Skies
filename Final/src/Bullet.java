@@ -37,6 +37,7 @@ public class Bullet extends JComponent
 		this.dx = dx;
 		this.dy = dy;
 		this.color = color;
+		this.size = size;
 		this.damage = damage;
 		this.hostile = hostile;
 		maxCurve = curve;
