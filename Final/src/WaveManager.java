@@ -20,6 +20,7 @@ public class WaveManager
 				wave.add(new Enemy(120 + i * 40, 150 + (int) (Math.random() * (20 - -20) + -20), 20, 20, 20, 0));
 				wave.add(new Enemy(260 + i * 40, 150 + (int) (Math.random() * (20 - -20) + -20), 20, 20, 20, 0));
 				wave.add(new Enemy(560 + (i * 40), 150 + (int) (Math.random() * (20 - -20) + -20), 20, 20, 20, 0));
+				wave.add(new EnemyUpDown(0, 320 + i * 80, 20, 20, 20, 0));
 			}
 		}
 		else if(currentWave == 8)
