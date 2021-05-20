@@ -177,7 +177,7 @@ public class ProjectMain extends JFrame implements ActionListener
     	{
     		currentWave ++;
     		ArrayList<Enemy> newWave = manager.newWave(currentWave);
-    		if(newWave != null)
+    		if(newWave.size() != 0)
         		{
     				if(currentWave == 8)
     				{
