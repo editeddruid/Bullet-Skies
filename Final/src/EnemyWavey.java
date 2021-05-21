@@ -15,16 +15,22 @@ public class EnemyWavey extends Enemy {
 	
 	//Fields
 	private Rectangle2D.Double enemy;
-	private int dx, dy, health, width, height, tick, pattern, curve, maxCurve, leftOrRight;//left = -1, right = 1
+	private int dx, dy, health, width, height, tick, pattern;//left = -1, right = 1
 	public boolean upOrDown;
 	private ArrayList<Bullet> bullets;
 	
 	//Constructor
-	public EnemyWavey(int x, int y, int health, int width, int height, int pattern, int curve) {
+	public EnemyWavey(int x, int y, int health, int width, int height, int pattern) {
 		super(x,y,health,width,height,pattern);
-		leftOrRight = 1;
-		this.curve = 0;
-		maxCurve = curve;
+		enemy = new Rectangle2D.Double(0,0, width, height);
+		dx = 0;
+		dy = 0;
+		tick = 0;
+		this.pattern = pattern; 
+		this.health = health;
+		bullets = new ArrayList<Bullet>();
+		setLocation(x,y);
+		setSize(width + 1,height + 1);
 		upOrDown = true;
 	}
 	
@@ -32,32 +38,19 @@ public class EnemyWavey extends Enemy {
 	//Unique Methods (Different for every enemy)
 	public void move() {
 		if (tick == 0) {
-			setDx(maxCurve);
-		}
-		if (getX() > 780) {
-			leftOrRight = -1;
-		}
-		if (getX() < 0) {
-			leftOrRight = 1;
-		}
-		if(maxCurve != 0)
-		{
-			if(curve == maxCurve)
-				upOrDown = false;
-			if(curve == maxCurve * -1)
-				upOrDown = true;
-			if (tick % 10 == 0 && upOrDown)
-			{
-				curve += (leftOrRight);
-			}
-			else if(tick % 10 == 0 && !upOrDown)
-			{
-				curve -= (leftOrRight);
-			}
-			
-			if (getX() > 780 + getWidth() || getX() < 0)
-				maxCurve = maxCurve * -1;
-		}
+			setDx(-1);
+	}
+
+	if (getX() < 0) {
+		setLocation(0,getY());
+		setDx(1);
+	}
+	if (getX() > 780 - getWidth()) {
+		setLocation(780 - getWidth(),getY());
+		setDx(-1);
+		
+	}
+		
 	}
 	
 	public ArrayList<Bullet> shoot() {
@@ -110,7 +103,7 @@ public class EnemyWavey extends Enemy {
 	
 	public void update() {
 		tick ++;
-		setLocation(getX() + dx + curve, getY() + dy);
+		setLocation(getX() + getDx(), getY() + getDy());
 	}
 	
 
