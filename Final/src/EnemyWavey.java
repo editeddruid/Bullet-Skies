@@ -57,7 +57,7 @@ public class EnemyWavey extends Enemy {
 		if(tick % 25 == 0)
 		{
 			if(bullets.size() == 0)
-				bullets.add(new Bullet(getX() + (width/2), getY() + height, 0, (int) (Math.random() * 4) + 1, 10, 10, true, Color.BLUE, 5));
+				bullets.add(new Bullet(getX() + (width/2), getY() + height, 0, (int) (Math.random() * 4) + 1, 10, 10, true, Color.GREEN, 5));
 			return bullets;
 		}
 		else

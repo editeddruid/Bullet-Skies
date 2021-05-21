@@ -23,6 +23,11 @@ public class WaveManager
 				wave.add(new EnemyUpDown(0, 320 + i * 80, 20, 20, 20, 0));
 			}
 		}
+		if(currentWave >= 4 && currentWave < 8)
+		{
+			wave.add(new EnemyWavey(100 + 30 * currentWave, 150 + (int) (Math.random() * (20 - -20) -20), 30, 30, 40, 0));
+			wave.add(new EnemyWavey(700 - 30 * currentWave, 150 + (int) (Math.random() * (20 - -20) -20), 30, 30, 40, 0));
+		}
 		else if(currentWave == 8)
 		{
 			wave.add(new BossEnemy(100, 100, 2000, 600, 200, 0));
