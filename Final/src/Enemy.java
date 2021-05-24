@@ -2,8 +2,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
 /**
@@ -17,6 +21,7 @@ public class Enemy extends JComponent {
 	private Rectangle2D.Double enemy;
 	private int dx, dy, health, width, height, tick, pattern;
 	private ArrayList<Bullet> bullets;
+	private BufferedImage image;
 	
 	//Constructor
 	public Enemy(int x, int y, int health, int width, int height, int pattern) {
@@ -28,6 +33,11 @@ public class Enemy extends JComponent {
 		this.pattern = pattern; 
 		this.health = health;
 		bullets = new ArrayList<Bullet>();
+		try {                
+	          image = ImageIO.read(new File("test.png"));
+	       } catch (IOException ex) {
+	            System.out.println("ERROR");
+	       }
 		setLocation(x,y);
 	}
 	
@@ -69,8 +79,9 @@ public class Enemy extends JComponent {
 	{
 		Graphics2D g2 = (Graphics2D) g;
 		
-		g2.setColor(Color.RED);
-		g2.fill(enemy);
+//		g2.setColor(Color.RED);
+//		g2.fill(enemy);
+		g2.drawImage(image, 0, 0, this);
 	}
 	
 	
