@@ -26,6 +26,7 @@ public class ProjectMain extends JFrame implements ActionListener
 	private WaveManager manager;
 	private int health, tick, currentWave; //For if we decide to do multiple levels and want to transfer over health
 	private JLabel remainingClears, remainingHealth;
+	private HealthBar playerHealth;
 	public ProjectMain()
     {
         //Basic initialization
@@ -35,7 +36,7 @@ public class ProjectMain extends JFrame implements ActionListener
         setResizable(false);
         //Adding the WaveManager
         manager = new WaveManager();
-        currentWave = 1;
+        currentWave = 0;
         //Creating the Bullet ArrayList
         bullets = new ArrayList<Bullet>();
         playerBullets = new ArrayList<Bullet>();
@@ -52,7 +53,9 @@ public class ProjectMain extends JFrame implements ActionListener
         //Creating the player character
         health = 100;
         player = new Player(400, 400, health); //Location is just a placeholder
+        playerHealth = new HealthBar(500, 20, 100, Color.RED);
         add(player);
+        add(playerHealth);
         //Creating the remainingClears label
         remainingClears = new JLabel("Remaining Clears: " + player.getScreenClears());
         remainingClears.setBounds(100, 20, 150, 50);
@@ -259,7 +262,7 @@ public class ProjectMain extends JFrame implements ActionListener
 						bullets.add(bull);
 						add(bull);
 					}
-				} //TODO Tell Philip about the stacked shots
+				} 
 			}
 		}
 		//Updating the bullets
@@ -277,10 +280,12 @@ public class ProjectMain extends JFrame implements ActionListener
 			bullets.get(b).getWidth(), bullets.get(b).getHeight());
 			Rectangle r2 = new Rectangle(player.getX(), player.getY(), 
 			player.getWidth(), player.getHeight());
+			//Checking if the player is hit
 			if(r1.intersects(r2))
 			{
 				player.setHealth(bullets.get(b).getDamage() * -1);
 				remainingHealth.setText("Health: " + player.getHealth());
+				playerHealth.makeSmaller((int) ((player.getHealth() / 100.0) * 150));
 				remove(bullets.get(b));
 				bullets.remove(b);
 				b --;
@@ -291,6 +296,7 @@ public class ProjectMain extends JFrame implements ActionListener
 			playerBullets.get(i).update();
 			Rectangle r1 = new Rectangle(playerBullets.get(i).getX(), playerBullets.get(i).getY(), 
 			playerBullets.get(i).getWidth(), playerBullets.get(i).getHeight());
+			//Checking if an enemy is hit
 			for(int enem = 0; enem < enemies.size(); enem ++)
 			{
 				Rectangle r2 = new Rectangle(enemies.get(enem).getX(), enemies.get(enem).getY(), 
