@@ -2,13 +2,25 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
+/**
+ * 
+ * @author John D'Arcy
+ * 
+ * Image code from Brendan Cashman
+ *
+ */
 public class BossEnemy extends Enemy
 {
 	private Rectangle2D.Double boss;
 	private int dx, dy, health, width, height, tick, pattern;
 	private ArrayList<Bullet> bullets;
+	private BufferedImage image;
 
 	public BossEnemy(int x, int y, int health, int width, int height, int pattern)
 	{
@@ -16,6 +28,11 @@ public class BossEnemy extends Enemy
 		boss = new Rectangle2D.Double(0,0,width,height);
 		setSize(width + 1,height + 1);
 		bullets = new ArrayList<Bullet>();
+		try {                
+	          image = ImageIO.read(new File("BossEnemy.png"));
+	       } catch (IOException ex) {
+	            System.out.println("ERROR");
+	       }
 		pattern = 0;
 	}
 	
@@ -66,8 +83,9 @@ public class BossEnemy extends Enemy
 	{
 		Graphics2D g2 = (Graphics2D) g;
 		
-		g2.setColor(Color.CYAN);
-		g2.fill(boss);
+//		g2.setColor(Color.CYAN);
+//		g2.fill(boss);
+		g2.drawImage(image, 0, 0, this);
 	}
 	
 	public void update()
