@@ -57,6 +57,11 @@ public class BossEnemy extends Enemy
 			return null;
 	}
 	
+	public int getHealth()
+	{
+		return health;
+	}
+	
 	public void paintComponent(Graphics g)
 	{
 		Graphics2D g2 = (Graphics2D) g;
