@@ -1,5 +1,6 @@
 /**
  * @author John D'Arcy
+ * Image code from Brendan Cashman
  */
 
 import java.awt.Color;
