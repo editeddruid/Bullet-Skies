@@ -36,7 +36,7 @@ public class ProjectMain extends JFrame implements ActionListener
         setResizable(false);
         //Adding the WaveManager
         manager = new WaveManager();
-        currentWave = 7;
+        currentWave = 0;
         //Creating the Bullet ArrayList
         bullets = new ArrayList<Bullet>();
         playerBullets = new ArrayList<Bullet>();
