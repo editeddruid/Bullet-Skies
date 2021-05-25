@@ -23,7 +23,7 @@ public class Player extends JComponent
 		dx = 0;
 		dy = 0;
 		this.health = health;
-		screenClears = 3;
+		screenClears = 5;
 		setLocation(x,y);
 	}
 	//Painting the Component

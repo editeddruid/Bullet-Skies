@@ -341,6 +341,7 @@ public class ProjectMain extends JFrame implements ActionListener
 		//Checking to see if the player dies
 		if(player.getHealth() <= 0)
 		{
+			remainingHealth.setText("Health: 0");
 			player.setVisible(false);
 			t.stop();
 			JOptionPane.showMessageDialog(null, "Game Over"); //TODO Implement without JOptionPane

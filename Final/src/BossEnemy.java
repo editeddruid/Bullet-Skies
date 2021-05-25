@@ -79,9 +79,9 @@ public class BossEnemy extends Enemy
 	{
 		Graphics2D g2 = (Graphics2D) g;
 		
-		g2.setColor(Color.CYAN);
-		g2.fill(boss);
-//		g2.drawImage(image, 0, 0, this);
+//		g2.setColor(Color.CYAN);
+//		g2.fill(boss);
+		g2.drawImage(image, 0, 0, this);
 	}
 	
 	public void update()
