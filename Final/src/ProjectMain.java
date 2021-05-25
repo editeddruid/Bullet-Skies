@@ -200,8 +200,8 @@ public class ProjectMain extends JFrame implements ActionListener
             			Enemy newEnem = newWave.get(enem);
             			enemies.add(newEnem);
             			add(newEnem);
+            			newWave.remove(enem);
             		}
-//            		System.out.print("ADDED");
         		}
     	}
     	//Iterating over inputs
@@ -321,7 +321,6 @@ public class ProjectMain extends JFrame implements ActionListener
 		}
 		
 		repaint();
-		
 		//Keeping the player within bounds
 		if(player.getX() < 0)
 		{

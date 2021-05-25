@@ -13,6 +13,8 @@ import javax.swing.JComponent;
 /**
  * 
  * @author Philip Melavila and John D'Arcy
+ * 
+ * Image code from Brendan Cashman
  *
  */
 public class Enemy extends JComponent {
@@ -34,7 +36,7 @@ public class Enemy extends JComponent {
 		this.health = health;
 		bullets = new ArrayList<Bullet>();
 		try {                
-	          image = ImageIO.read(new File("test.png"));
+	          image = ImageIO.read(new File("Enemy.png"));
 	       } catch (IOException ex) {
 	            System.out.println("ERROR");
 	       }
