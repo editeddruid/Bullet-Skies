@@ -164,7 +164,7 @@ public class ProjectMain extends JFrame implements ActionListener
 						{
 							if(bullets.get(i).getHostile())
 							{
-								remove(bullets.get(i));
+								background.remove(bullets.get(i));
 								bullets.remove(i);
 								i--;
 							}
@@ -199,7 +199,7 @@ public class ProjectMain extends JFrame implements ActionListener
 						{
 							if(bullets.get(i).getHostile())
 							{
-								remove(bullets.get(i));
+								background.remove(bullets.get(i));
 								bullets.remove(i);
 								i--;
 							}
@@ -251,7 +251,7 @@ public class ProjectMain extends JFrame implements ActionListener
 			//Checking to see if the enemy is dead
 			if(enemies.get(enem).getHealth() <= 0)
 			{
-				remove(enemies.get(enem));
+				background.remove(enemies.get(enem));
 				enemies.remove(enem);
 				enem --;
 				continue;
@@ -280,7 +280,7 @@ public class ProjectMain extends JFrame implements ActionListener
 		{
 			if(bullets.get(b).getY() > 1000 || bullets.get(b).getX() < -50 || bullets.get(b).getX() > 900)
 			{
-				remove(bullets.get(b));
+				background.remove(bullets.get(b));
 				bullets.remove(b);
 				b--;
 				continue;
@@ -296,7 +296,7 @@ public class ProjectMain extends JFrame implements ActionListener
 				player.setHealth(bullets.get(b).getDamage() * -1);
 				remainingHealth.setText("Health: " + player.getHealth());
 				playerHealth.makeSmaller((int) ((player.getHealth() / 100.0) * 150));
-				remove(bullets.get(b));
+				background.remove(bullets.get(b));
 				bullets.remove(b);
 				b --;
 			}
@@ -314,7 +314,7 @@ public class ProjectMain extends JFrame implements ActionListener
 				if(r1.intersects(r2))
 				{
 					enemies.get(enem).setHealth(playerBullets.get(i).getDamage() * -1);
-					remove(playerBullets.get(i));
+					background.remove(playerBullets.get(i));
 					playerBullets.remove(i);
 				}
 			}
@@ -324,7 +324,7 @@ public class ProjectMain extends JFrame implements ActionListener
 			//Removing bullets that are off the screen
 			if(playerBullets.get(i).getY() < 0)
 			{
-				remove(playerBullets.get(i));
+				background.remove(playerBullets.get(i));
 				playerBullets.remove(i);
 				i--;
 			}
