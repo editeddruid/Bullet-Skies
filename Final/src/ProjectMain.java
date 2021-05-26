@@ -184,7 +184,7 @@ public class ProjectMain extends JFrame implements ActionListener
     @Override
 	public void actionPerformed(ActionEvent e) 
 	{
-    	remainingHealth.setLocation(500, -450);
+    	remainingHealth.setLocation(500, -450); //Dumb fix for a weird problem
     	tick ++;
     	//Adding waves
     	if(enemies.size() == 0)
@@ -238,7 +238,7 @@ public class ProjectMain extends JFrame implements ActionListener
     		{
     			if(tick % 10 == 0)
     			{
-    				Bullet fired = new Bullet(player.getX() + 1, player.getY(), 0, -10, 3, 10, false, Color.BLUE, 0);
+    				Bullet fired = new Bullet(player.getX() + 1, player.getY(), 0, -10, 4, 10, false, Color.YELLOW, 0);
     				playerBullets.add(fired);
     				background.add(fired);
     			}

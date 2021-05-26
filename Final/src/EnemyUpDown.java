@@ -38,24 +38,7 @@ public class EnemyUpDown extends Enemy
 	}
 	//Unique Methods
 	public void move()
-	{
-//		if (pattern == 0) {
-//			if (tick == 0) {
-//					setDy(-2);
-//			}
-//
-//			if (getY() < 200) {
-//				setLocation(getX(),200);
-//				setDy(2);
-//			}
-//			if (getY() > 980 - height) {
-//				setLocation(getX(),980 - height);
-//				setDy(-2);
-//				
-//			}
-//				
-//		}
-	}
+	{}
 	
 	public ArrayList<Bullet> shoot() 
 	{

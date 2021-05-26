@@ -18,8 +18,8 @@ public class Player extends JComponent
 	//Constructor
 	public Player(int x, int y, int health)
 	{
-		player = new Rectangle2D.Double(0, 0, 4, 4);
-		setSize(5, 5);
+		player = new Rectangle2D.Double(0, 0, 6, 6);
+		setSize(7, 7);
 		dx = 0;
 		dy = 0;
 		this.health = health;
