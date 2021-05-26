@@ -184,6 +184,7 @@ public class ProjectMain extends JFrame implements ActionListener
     @Override
 	public void actionPerformed(ActionEvent e) 
 	{
+    	remainingHealth.setLocation(500, -450);
     	tick ++;
     	//Adding waves
     	if(enemies.size() == 0)
@@ -317,8 +318,7 @@ public class ProjectMain extends JFrame implements ActionListener
 					background.remove(playerBullets.get(i));
 					playerBullets.remove(i);
 					i--; 
-					continue bulletCollision;//TODO See if you can get the continue to apply to the outer loop instead of the inner loop
-					//TODO Figure out why this runs twice, these 2 issues are related to r1.intersects(r2)
+					continue bulletCollision;
 				}
 			}
 		}
@@ -343,9 +343,9 @@ public class ProjectMain extends JFrame implements ActionListener
 		{
 			player.setLocation(782, player.getY());
 		}
-		if(player.getY() < 50)
+		if(player.getY() < 60)
 		{
-			player.setLocation(player.getX(), 50);
+			player.setLocation(player.getX(), 60);
 		}
 		if(player.getY() > 960)
 		{
