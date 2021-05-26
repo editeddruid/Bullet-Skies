@@ -298,10 +298,10 @@ public class ProjectMain extends JFrame implements ActionListener
 				playerHealth.makeSmaller((int) ((player.getHealth() / 100.0) * 150));
 				background.remove(bullets.get(b));
 				bullets.remove(b);
-				b --;
+				b --; //TODO Figure out why the **** this runs twice
 			}
 		}
-		for(int i = playerBullets.size() - 1; i >= 0; i--)
+		bulletCollision: for(int i = playerBullets.size() - 1; i >= 0; i--)
 		{
 			playerBullets.get(i).update();
 			Rectangle r1 = new Rectangle(playerBullets.get(i).getX(), playerBullets.get(i).getY(), 
@@ -316,6 +316,9 @@ public class ProjectMain extends JFrame implements ActionListener
 					enemies.get(enem).setHealth(playerBullets.get(i).getDamage() * -1);
 					background.remove(playerBullets.get(i));
 					playerBullets.remove(i);
+					i--; 
+					continue bulletCollision;//TODO See if you can get the continue to apply to the outer loop instead of the inner loop
+					//TODO Figure out why this runs twice, these 2 issues are related to r1.intersects(r2)
 				}
 			}
 		}
@@ -340,9 +343,9 @@ public class ProjectMain extends JFrame implements ActionListener
 		{
 			player.setLocation(782, player.getY());
 		}
-		if(player.getY() < 0)
+		if(player.getY() < 50)
 		{
-			player.setLocation(player.getX(), 0);
+			player.setLocation(player.getX(), 50);
 		}
 		if(player.getY() > 960)
 		{
