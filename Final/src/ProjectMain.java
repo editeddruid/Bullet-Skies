@@ -8,11 +8,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class ProjectMain extends JFrame implements ActionListener
@@ -27,6 +33,7 @@ public class ProjectMain extends JFrame implements ActionListener
 	private int health, tick, currentWave; //For if we decide to do multiple levels and want to transfer over health
 	private JLabel remainingClears, remainingHealth;
 	private HealthBar playerHealth;
+	private Background background;
 	public ProjectMain()
     {
         //Basic initialization
@@ -34,6 +41,9 @@ public class ProjectMain extends JFrame implements ActionListener
         setBounds(100, 100, 800, 1000);
         setLayout(null);
         setResizable(false);
+        //Adding Background Image
+        background = new Background();
+        add(background);
         //Adding the WaveManager
         manager = new WaveManager();
         currentWave = 0;
@@ -46,7 +56,7 @@ public class ProjectMain extends JFrame implements ActionListener
         enemies.add(new Enemy(200,200,100,20,20,0));
         for(Enemy e : enemies)
         {
-        	add(e);
+        	background.add(e);
         }
         //Adding the inputs array
         inputs = new ArrayList<String>();
@@ -54,15 +64,15 @@ public class ProjectMain extends JFrame implements ActionListener
         health = 100;
         player = new Player(400, 400, health); //Location is just a placeholder
         playerHealth = new HealthBar(500, 20, 100, Color.RED);
-        add(player);
-        add(playerHealth);
+        background.add(player);
+        background.add(playerHealth);
         //Creating the remainingClears label
         remainingClears = new JLabel("Remaining Clears: " + player.getScreenClears());
         remainingClears.setBounds(100, 20, 150, 50);
         remainingHealth = new JLabel("Health: " + player.getHealth());
         remainingHealth.setBounds(500, 20, 150, 50);
-        add(remainingClears);
-        add(remainingHealth);
+        background.add(remainingClears);
+        background.add(remainingHealth);
         //Adding the Timer
         t = new Timer(10, this);
         t.start();
@@ -199,7 +209,7 @@ public class ProjectMain extends JFrame implements ActionListener
             		{
             			Enemy newEnem = newWave.get(enem);
             			enemies.add(newEnem);
-            			add(newEnem);
+            			background.add(newEnem);
             			newWave.remove(enem);
             		}
         		}
@@ -229,7 +239,7 @@ public class ProjectMain extends JFrame implements ActionListener
     			{
     				Bullet fired = new Bullet(player.getX() + 1, player.getY(), 0, -10, 3, 10, false, Color.BLUE, 0);
     				playerBullets.add(fired);
-    				add(fired);
+    				background.add(fired);
     			}
     		}
     	}
@@ -260,7 +270,7 @@ public class ProjectMain extends JFrame implements ActionListener
 					if(bull != null)
 					{
 						bullets.add(bull);
-						add(bull);
+						background.add(bull);
 					}
 				} 
 			}
@@ -341,7 +351,6 @@ public class ProjectMain extends JFrame implements ActionListener
 		//Checking to see if the player dies
 		if(player.getHealth() <= 0)
 		{
-			remainingHealth.setText("Health: 0");
 			player.setVisible(false);
 			t.stop();
 			JOptionPane.showMessageDialog(null, "Game Over"); //TODO Implement without JOptionPane
