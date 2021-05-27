@@ -24,7 +24,8 @@ public class Background extends JPanel{
        } catch (IOException ex) {
             System.out.print("ERROR");
        }
-       setLayout(new BorderLayout());
+//       setLayout(new BorderLayout());
+       setLayout(null);
        setSize(800,1000);
        setLocation(0,0);
     }
@@ -34,5 +35,4 @@ public class Background extends JPanel{
         Graphics2D g2 = (Graphics2D)g;
         g2.drawImage(image, 0, 0, this);             
     }
-
 }

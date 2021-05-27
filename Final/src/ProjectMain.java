@@ -2,6 +2,7 @@
  * @author John D'Arcy and Philip Melavila
  */
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -46,7 +47,7 @@ public class ProjectMain extends JFrame implements ActionListener
         add(background);
         //Adding the WaveManager
         manager = new WaveManager();
-        currentWave = 0;
+        currentWave = 7;
         //Creating the Bullet ArrayList
         bullets = new ArrayList<Bullet>();
         playerBullets = new ArrayList<Bullet>();
@@ -62,7 +63,7 @@ public class ProjectMain extends JFrame implements ActionListener
         inputs = new ArrayList<String>();
         //Creating the player character
         health = 100;
-        player = new Player(400, 400, health); //Location is just a placeholder
+        player = new Player(400, 400, health); 
         playerHealth = new HealthBar(500, 20, 100, Color.RED);
         background.add(player);
         background.add(playerHealth);
@@ -94,26 +95,22 @@ public class ProjectMain extends JFrame implements ActionListener
 				//Movement
 				if(e.getKeyCode() == KeyEvent.VK_W)
 				{
-//					player.setDy(-4);
-					if(!inputs.contains("W"))
+					if(!inputs.contains("W")) //player.setDy(-4);
 						inputs.add("W");
 				}
 				if(e.getKeyCode() == KeyEvent.VK_S)
 				{
-//					player.setDy(4);
-					if(!inputs.contains("S"))
+					if(!inputs.contains("S")) //player.setDy(4);
 						inputs.add("S");
 				}
 				if(e.getKeyCode() == KeyEvent.VK_A)
 				{
-//					player.setDx(-4);
-					if(!inputs.contains("A"))
+					if(!inputs.contains("A")) //player.setDx(-4);
 						inputs.add("A");
 				}
 				if(e.getKeyCode() == KeyEvent.VK_D)
 				{
-//					player.setDx(4);
-					if(!inputs.contains("D"))
+					if(!inputs.contains("D")) //player.setDx(4);
 						inputs.add("D");
 				}
 				if(e.getKeyCode() == KeyEvent.VK_SPACE)
@@ -184,7 +181,6 @@ public class ProjectMain extends JFrame implements ActionListener
     @Override
 	public void actionPerformed(ActionEvent e) 
 	{
-    	remainingHealth.setLocation(500, -450); //Dumb fix for a weird problem
     	tick ++;
     	//Adding waves
     	if(enemies.size() == 0)
@@ -299,7 +295,7 @@ public class ProjectMain extends JFrame implements ActionListener
 				playerHealth.makeSmaller((int) ((player.getHealth() / 100.0) * 150));
 				background.remove(bullets.get(b));
 				bullets.remove(b);
-				b --; //TODO Figure out why the **** this runs twice
+				b --;
 			}
 		}
 		bulletCollision: for(int i = playerBullets.size() - 1; i >= 0; i--)
@@ -332,7 +328,6 @@ public class ProjectMain extends JFrame implements ActionListener
 				i--;
 			}
 		}
-		
 		repaint();
 		//Keeping the player within bounds
 		if(player.getX() < 0)
