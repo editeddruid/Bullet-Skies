@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
@@ -28,21 +29,23 @@ public class Bullet extends JComponent
 		color = Color.BLACK;
 		damage = 1;
 		hostile = true;
+
 	}
 	//More advanced constructor
 	public Bullet(int x, int y, int dx, int dy, int size, int damage, boolean hostile, Color color, int curve)
 	{
 		bullet = new Ellipse2D.Double(0, 0, size, size);
-		setBounds(x, y, size+1, size+1);
+		this.size = size;
+		setBounds(x, y, size, size);
 		this.dx = dx;
 		this.dy = dy;
 		this.color = color;
-		this.size = size;
 		this.damage = damage;
 		this.hostile = hostile;
 		maxCurve = curve;
 		curve = 0;
 		upOrDown = true;
+		this.setPreferredSize(new Dimension(size+1, size+1));
 	}
 	//Paint
 	public void paintComponent(Graphics g)
@@ -72,6 +75,10 @@ public class Bullet extends JComponent
 	public int getDamage()
 	{
 		return damage;
+	}
+	public int getSizeInt()
+	{
+		return size;
 	}
 	//Getter to see if hostile
 	public boolean getHostile()

@@ -2,6 +2,7 @@
  * @author John D'Arcy and Philip Melavila
  */
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -62,7 +63,7 @@ public class ProjectMain extends JFrame implements ActionListener
         inputs = new ArrayList<String>();
         //Creating the player character
         health = 100;
-        player = new Player(400, 400, health); //Location is just a placeholder
+        player = new Player(400, 400, health); 
         playerHealth = new HealthBar(500, 20, 100, Color.RED);
         background.add(player);
         background.add(playerHealth);
@@ -94,26 +95,22 @@ public class ProjectMain extends JFrame implements ActionListener
 				//Movement
 				if(e.getKeyCode() == KeyEvent.VK_W)
 				{
-//					player.setDy(-4);
-					if(!inputs.contains("W"))
+					if(!inputs.contains("W")) //player.setDy(-4);
 						inputs.add("W");
 				}
 				if(e.getKeyCode() == KeyEvent.VK_S)
 				{
-//					player.setDy(4);
-					if(!inputs.contains("S"))
+					if(!inputs.contains("S")) //player.setDy(4);
 						inputs.add("S");
 				}
 				if(e.getKeyCode() == KeyEvent.VK_A)
 				{
-//					player.setDx(-4);
-					if(!inputs.contains("A"))
+					if(!inputs.contains("A")) //player.setDx(-4);
 						inputs.add("A");
 				}
 				if(e.getKeyCode() == KeyEvent.VK_D)
 				{
-//					player.setDx(4);
-					if(!inputs.contains("D"))
+					if(!inputs.contains("D")) //player.setDx(4);
 						inputs.add("D");
 				}
 				if(e.getKeyCode() == KeyEvent.VK_SPACE)
@@ -164,7 +161,7 @@ public class ProjectMain extends JFrame implements ActionListener
 						{
 							if(bullets.get(i).getHostile())
 							{
-								remove(bullets.get(i));
+								background.remove(bullets.get(i));
 								bullets.remove(i);
 								i--;
 							}
@@ -199,7 +196,7 @@ public class ProjectMain extends JFrame implements ActionListener
 						{
 							if(bullets.get(i).getHostile())
 							{
-								remove(bullets.get(i));
+								background.remove(bullets.get(i));
 								bullets.remove(i);
 								i--;
 							}
@@ -237,7 +234,7 @@ public class ProjectMain extends JFrame implements ActionListener
     		{
     			if(tick % 10 == 0)
     			{
-    				Bullet fired = new Bullet(player.getX() + 1, player.getY(), 0, -10, 3, 10, false, Color.BLUE, 0);
+    				Bullet fired = new Bullet(player.getX() + 1, player.getY(), 0, -10, 4, 10, false, Color.YELLOW, 0);
     				playerBullets.add(fired);
     				background.add(fired);
     			}
@@ -251,7 +248,7 @@ public class ProjectMain extends JFrame implements ActionListener
 			//Checking to see if the enemy is dead
 			if(enemies.get(enem).getHealth() <= 0)
 			{
-				remove(enemies.get(enem));
+				background.remove(enemies.get(enem));
 				enemies.remove(enem);
 				enem --;
 				continue;
@@ -280,7 +277,7 @@ public class ProjectMain extends JFrame implements ActionListener
 		{
 			if(bullets.get(b).getY() > 1000 || bullets.get(b).getX() < -50 || bullets.get(b).getX() > 900)
 			{
-				remove(bullets.get(b));
+				background.remove(bullets.get(b));
 				bullets.remove(b);
 				b--;
 				continue;
@@ -296,12 +293,12 @@ public class ProjectMain extends JFrame implements ActionListener
 				player.setHealth(bullets.get(b).getDamage() * -1);
 				remainingHealth.setText("Health: " + player.getHealth());
 				playerHealth.makeSmaller((int) ((player.getHealth() / 100.0) * 150));
-				remove(bullets.get(b));
+				background.remove(bullets.get(b));
 				bullets.remove(b);
 				b --;
 			}
 		}
-		for(int i = playerBullets.size() - 1; i >= 0; i--)
+		bulletCollision: for(int i = playerBullets.size() - 1; i >= 0; i--)
 		{
 			playerBullets.get(i).update();
 			Rectangle r1 = new Rectangle(playerBullets.get(i).getX(), playerBullets.get(i).getY(), 
@@ -314,8 +311,10 @@ public class ProjectMain extends JFrame implements ActionListener
 				if(r1.intersects(r2))
 				{
 					enemies.get(enem).setHealth(playerBullets.get(i).getDamage() * -1);
-					remove(playerBullets.get(i));
+					background.remove(playerBullets.get(i));
 					playerBullets.remove(i);
+					i--; 
+					continue bulletCollision;
 				}
 			}
 		}
@@ -324,12 +323,11 @@ public class ProjectMain extends JFrame implements ActionListener
 			//Removing bullets that are off the screen
 			if(playerBullets.get(i).getY() < 0)
 			{
-				remove(playerBullets.get(i));
+				background.remove(playerBullets.get(i));
 				playerBullets.remove(i);
 				i--;
 			}
 		}
-		
 		repaint();
 		//Keeping the player within bounds
 		if(player.getX() < 0)
@@ -340,9 +338,9 @@ public class ProjectMain extends JFrame implements ActionListener
 		{
 			player.setLocation(782, player.getY());
 		}
-		if(player.getY() < 0)
+		if(player.getY() < 60)
 		{
-			player.setLocation(player.getX(), 0);
+			player.setLocation(player.getX(), 60);
 		}
 		if(player.getY() > 960)
 		{
