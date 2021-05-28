@@ -78,9 +78,9 @@ public class Player extends JComponent
 	{
 		return screenClears;
 	}
-	public void useScreenClear()
+	public void setScreenClear(int i)
 	{
-		screenClears --;
+		screenClears = i;
 	}
 	//Updating coordinates
 	public void update()

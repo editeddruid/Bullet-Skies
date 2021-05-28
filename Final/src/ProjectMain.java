@@ -85,13 +85,13 @@ public class ProjectMain extends JFrame implements ActionListener
         startControls.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "UNIMPLEMENTED"); //TODO Implement without JOptionPane
+				JOptionPane.showMessageDialog(null, "Controls:\nMovement: WASD\nShooting: SPACE\nScreen Clears: SHIFT"); //TODO Implement without JOptionPane
 			}
         });
         creditsButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Game Over"); //TODO Implement without JOptionPane
+				JOptionPane.showMessageDialog(null, "Coding by John D'Arcy and Philip Melavila\nArt by John D'Arcy"); //TODO Implement without JOptionPane
 			}
         });
         //Adding enemy array list
@@ -196,7 +196,7 @@ public class ProjectMain extends JFrame implements ActionListener
 				{
 					if(player.getScreenClears() > 0)
 					{
-						player.useScreenClear();
+						player.setScreenClear(player.getScreenClears()-1);
 						for(int i = 0; i < bullets.size(); i++)
 						{
 							if(bullets.get(i).getHostile()) //Deletes the bullets
@@ -394,6 +394,52 @@ public class ProjectMain extends JFrame implements ActionListener
 			player.setVisible(false);
 			t.stop();
 			JOptionPane.showMessageDialog(null, "Game Over"); //TODO Implement without JOptionPane
+			reset();
 		}
 	}
+    
+    private void reset()
+    {
+    	currentWave = 0; //Resetting the game.
+    	tick = 0;
+    	for(int i = 0; i < enemies.size(); i++)
+    	{
+    		background.remove(enemies.get(i));
+    		enemies.remove(i);
+    		i--;
+    	}
+    	for(int i = 0; i < bullets.size(); i++)
+    	{
+    		background.remove(bullets.get(i));
+    		bullets.remove(i);
+    		i--;
+    	}
+    	for(int i = 0; i < playerBullets.size(); i++)
+    	{
+    		background.remove(playerBullets.get(i));
+    		playerBullets.remove(i);
+    		i--;
+    	}
+    	for(int i = 0; i < inputs.size(); i ++)
+    	{
+    		inputs.remove(i);
+    	}
+    	player.setVisible(true);
+    	player.setLocation(400, 400);
+		start = false;
+		startButton.setVisible(true);
+		startButton.setEnabled(true);
+		startControls.setVisible(true);
+		startControls.setEnabled(true);
+		creditsButton.setVisible(true);
+		creditsButton.setEnabled(true);
+		playerHealth.setVisible(false);
+		remainingClears.setVisible(false);
+        remainingHealth.setVisible(false);
+        playerHealth.setSize(151, 21);
+        player.setHealth(100);
+        remainingHealth.setText("Health: " + player.getHealth());
+        player.setScreenClear(5);
+        repaint();
+    }
 }
