@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -26,7 +27,7 @@ public class ProjectMain extends JFrame implements ActionListener
 	private ArrayList<String> inputs;
 	private WaveManager manager;
 	private int health, tick, currentWave; //For if we decide to do multiple levels and want to transfer over health
-	private JLabel remainingClears, remainingHealth;
+	private JLabel remainingClears, remainingHealth, titleLogo;
 	private JButton startButton, startControls, creditsButton;
 	private HealthBar playerHealth;
 	private Background background;
@@ -62,6 +63,10 @@ public class ProjectMain extends JFrame implements ActionListener
         creditsButton.setBounds(350, 500, 100, 20);
         creditsButton.setFocusable(false);
         background.add(creditsButton);
+        titleLogo = new JLabel();
+        titleLogo.setIcon(new ImageIcon("logo.png"));
+        titleLogo.setBounds(200,100,400,200);
+        background.add(titleLogo);
         //Adding action listeners for the start screen
         startButton.addActionListener(new ActionListener()
         		{
@@ -75,6 +80,7 @@ public class ProjectMain extends JFrame implements ActionListener
 						startControls.setEnabled(false);
 						creditsButton.setVisible(false);
 						creditsButton.setEnabled(false);
+						titleLogo.setVisible(false);
 						playerHealth.setVisible(true);
 						remainingClears.setVisible(true);
 				        remainingHealth.setVisible(true);
@@ -433,6 +439,7 @@ public class ProjectMain extends JFrame implements ActionListener
 		startControls.setEnabled(true);
 		creditsButton.setVisible(true);
 		creditsButton.setEnabled(true);
+		titleLogo.setVisible(true);
 		playerHealth.setVisible(false);
 		remainingClears.setVisible(false);
         remainingHealth.setVisible(false);
