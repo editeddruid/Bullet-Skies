@@ -1,4 +1,3 @@
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
@@ -26,14 +25,14 @@ public class Player extends JComponent
 	//Constructor
 	public Player(int x, int y, int health)
 	{
-		player = new Rectangle2D.Double(0, 0, 6, 6);
-		setSize(7, 7);
+		player = new Rectangle2D.Double(0, 0, 6, 6); //This isn't really necessary but it's a pain to remove
+		setSize(7, 7); //Player is 6x6
 		dx = 0;
 		dy = 0;
 		this.health = health;
 		screenClears = 5;
 		try {                
-	          image = ImageIO.read(new File("Player.png"));
+	          image = ImageIO.read(new File("Player.png")); //Sets the player to the player image
 	       } catch (IOException ex) {
 	            System.out.println("ERROR");
 	       }
@@ -43,9 +42,7 @@ public class Player extends JComponent
 	public void paintComponent(Graphics g)
 	{
 		Graphics2D g2 = (Graphics2D) g;
-//		g2.setColor(Color.BLACK);
-//		g2.fill(player);
-		g2.drawImage(image, 0, 0, this);
+		g2.drawImage(image, 0, 0, this); 
 	}
 	//Setting dx and dy
 	public void setDx(int x)
@@ -56,6 +53,7 @@ public class Player extends JComponent
 	{
 		dy = y;
 	}
+	//Getting dx and dy
 	public int getDx()
 	{
 		return dx;
@@ -69,6 +67,7 @@ public class Player extends JComponent
 	{
 		health += h;
 	}
+	//Getting health
 	public int getHealth()
 	{
 		return health;

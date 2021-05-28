@@ -89,7 +89,7 @@ public class Bullet extends JComponent
 	public void update()
 	{
 		tick++;
-		if(maxCurve != 0)
+		if(maxCurve != 0) //Code for curve. Modifies the dx to get wavy
 		{
 			if(curve == maxCurve)
 				upOrDown = false;
