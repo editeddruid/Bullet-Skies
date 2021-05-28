@@ -447,6 +447,7 @@ public class ProjectMain extends JFrame implements ActionListener
         player.setHealth(100);
         remainingHealth.setText("Health: " + player.getHealth());
         player.setScreenClear(5);
+        remainingClears.setText("Remaining Clears: " + player.getScreenClears());
         repaint();
     }
 }
