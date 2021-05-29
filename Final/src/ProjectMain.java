@@ -3,6 +3,7 @@
  */
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +17,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 public class ProjectMain extends JFrame implements ActionListener
 {
@@ -28,7 +31,7 @@ public class ProjectMain extends JFrame implements ActionListener
 	private WaveManager manager;
 	private int health, tick, currentWave; //For if we decide to do multiple levels and want to transfer over health
 	private JLabel remainingClears, remainingHealth, titleLogo;
-	private JButton startButton, startControls, creditsButton;
+	private JButton startButton, startControls, creditsButton, exitButton;
 	private HealthBar playerHealth;
 	private Background background;
 	private boolean start;
@@ -54,19 +57,36 @@ public class ProjectMain extends JFrame implements ActionListener
         startButton = new JButton("Start Game");
         startControls = new JButton("Controls");
         creditsButton = new JButton("Credits");
-        startButton.setBounds(350,400, 100, 20);
+        exitButton = new JButton("Exit Game");
+        Border line = new LineBorder(Color.WHITE);
+        startButton.setBounds(250,400, 100, 20);
         startButton.setFocusable(false);
+        startButton.setForeground(Color.WHITE);
+        startButton.setBackground(Color.BLACK);
+        startButton.setBorder(line);
         background.add(startButton);
-        startControls.setBounds(350, 450, 100, 20);
+        startControls.setBounds(250, 450, 100, 20);
         startControls.setFocusable(false);
+        startControls.setForeground(Color.WHITE);
+        startControls.setBackground(Color.BLACK);
+        startControls.setBorder(line);
         background.add(startControls);
-        creditsButton.setBounds(350, 500, 100, 20);
+        creditsButton.setBounds(450, 400, 100, 20);
         creditsButton.setFocusable(false);
+        creditsButton.setForeground(Color.WHITE);
+        creditsButton.setBackground(Color.BLACK);
+        creditsButton.setBorder(line);
         background.add(creditsButton);
         titleLogo = new JLabel();
         titleLogo.setIcon(new ImageIcon("logo.png"));
         titleLogo.setBounds(200,100,400,200);
         background.add(titleLogo);
+        exitButton.setBounds(450, 450, 100, 20);
+        exitButton.setFocusable(false);
+        exitButton.setForeground(Color.WHITE);
+        exitButton.setBackground(Color.BLACK);
+        exitButton.setBorder(line);
+        background.add(exitButton);
         //Adding action listeners for the start screen
         startButton.addActionListener(new ActionListener()
         		{
@@ -80,6 +100,8 @@ public class ProjectMain extends JFrame implements ActionListener
 						startControls.setEnabled(false);
 						creditsButton.setVisible(false);
 						creditsButton.setEnabled(false);
+						exitButton.setVisible(false);
+						exitButton.setEnabled(false);
 						titleLogo.setVisible(false);
 						playerHealth.setVisible(true);
 						remainingClears.setVisible(true);
@@ -91,7 +113,7 @@ public class ProjectMain extends JFrame implements ActionListener
         startControls.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Controls:\nMovement: WASD\nShooting: SPACE\nScreen Clears: SHIFT"); //TODO Implement without JOptionPane
+				JOptionPane.showMessageDialog(null, "Controls:\nMovement: WASD\nShooting: SPACE\nScreen Clears: SHIFT\nSurvive for 8 waves to win."); //TODO Implement without JOptionPane
 			}
         });
         creditsButton.addActionListener(new ActionListener() {
@@ -100,13 +122,19 @@ public class ProjectMain extends JFrame implements ActionListener
 				JOptionPane.showMessageDialog(null, "Coding by John D'Arcy and Philip Melavila\nArt by John D'Arcy"); //TODO Implement without JOptionPane
 			}
         });
+        exitButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+        });
         //Adding enemy array list
         enemies = new ArrayList<Enemy>();
         //Adding the inputs array
         inputs = new ArrayList<String>();
         //Creating the player character
         health = 100;
-        player = new Player(400, 400, health); 
+        player = new Player(300, 400, health); 
         playerHealth = new HealthBar(500, 20, 100, Color.RED);
         background.add(player);
         background.add(playerHealth);
@@ -431,7 +459,7 @@ public class ProjectMain extends JFrame implements ActionListener
     		inputs.remove(i);
     	}
     	player.setVisible(true);
-    	player.setLocation(400, 400);
+    	player.setLocation(300, 400);
 		start = false;
 		startButton.setVisible(true);
 		startButton.setEnabled(true);
@@ -439,6 +467,8 @@ public class ProjectMain extends JFrame implements ActionListener
 		startControls.setEnabled(true);
 		creditsButton.setVisible(true);
 		creditsButton.setEnabled(true);
+		exitButton.setVisible(true);
+		exitButton.setEnabled(true);
 		titleLogo.setVisible(true);
 		playerHealth.setVisible(false);
 		remainingClears.setVisible(false);
