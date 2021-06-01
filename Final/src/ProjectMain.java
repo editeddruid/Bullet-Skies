@@ -2,25 +2,23 @@
  * @author John D'Arcy and Philip Melavila
  */
 
-import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 public class ProjectMain extends JFrame implements ActionListener
 {
@@ -32,13 +30,15 @@ public class ProjectMain extends JFrame implements ActionListener
 	private ArrayList<String> inputs;
 	private WaveManager manager;
 	private int health, tick, currentWave; //For if we decide to do multiple levels and want to transfer over health
-	private JLabel remainingClears, remainingHealth;
+	private JLabel remainingClears, remainingHealth, titleLogo;
+	private JButton startButton, startControls, creditsButton, exitButton;
 	private HealthBar playerHealth;
 	private Background background;
+	private boolean start;
 	public ProjectMain()
     {
         //Basic initialization
-        setTitle("Placeholder Title");
+        setTitle("Bullet Skies");
         setBounds(100, 100, 800, 1000);
         setLayout(null);
         setResizable(false);
@@ -52,31 +52,104 @@ public class ProjectMain extends JFrame implements ActionListener
         bullets = new ArrayList<Bullet>();
         playerBullets = new ArrayList<Bullet>();
         newBullets = new ArrayList<Bullet>();
-        //Adding an example enemy and enemy array list
+        //Adding the start screen things
+        start = false;
+        startButton = new JButton("Start Game");
+        startControls = new JButton("Controls");
+        creditsButton = new JButton("Credits");
+        exitButton = new JButton("Exit Game");
+        Border line = new LineBorder(Color.WHITE);
+        startButton.setBounds(250,400, 100, 20);
+        startButton.setFocusable(false);
+        startButton.setForeground(Color.WHITE);
+        startButton.setBackground(Color.BLACK);
+        startButton.setBorder(line);
+        background.add(startButton);
+        startControls.setBounds(250, 450, 100, 20);
+        startControls.setFocusable(false);
+        startControls.setForeground(Color.WHITE);
+        startControls.setBackground(Color.BLACK);
+        startControls.setBorder(line);
+        background.add(startControls);
+        creditsButton.setBounds(450, 400, 100, 20);
+        creditsButton.setFocusable(false);
+        creditsButton.setForeground(Color.WHITE);
+        creditsButton.setBackground(Color.BLACK);
+        creditsButton.setBorder(line);
+        background.add(creditsButton);
+        exitButton.setBounds(450, 450, 100, 20);
+        exitButton.setFocusable(false);
+        exitButton.setForeground(Color.WHITE);
+        exitButton.setBackground(Color.BLACK);
+        exitButton.setBorder(line);
+        background.add(exitButton);
+        titleLogo = new JLabel();
+        titleLogo.setIcon(new ImageIcon("logo.png"));
+        titleLogo.setBounds(0,0,800,1000);
+        background.add(titleLogo);
+        //Adding action listeners for the start screen
+        startButton.addActionListener(new ActionListener()
+        		{
+					@Override
+					public void actionPerformed(ActionEvent e) //Starts the game and makes the start screen invisible and uninteractable
+					{
+						start = true;
+						startButton.setVisible(false);
+						startButton.setEnabled(false);
+						startControls.setVisible(false);
+						startControls.setEnabled(false);
+						creditsButton.setVisible(false);
+						creditsButton.setEnabled(false);
+						exitButton.setVisible(false);
+						exitButton.setEnabled(false);
+						titleLogo.setVisible(false);
+						playerHealth.setVisible(true);
+						remainingClears.setVisible(true);
+				        remainingHealth.setVisible(true);
+						t.start();
+						player.setLocation(396, 600);
+					}
+        		});
+        startControls.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Controls:\nMovement: WASD\nShooting: SPACE\nScreen Clears: SHIFT\nSurvive for 8 waves to win."); //TODO Implement without JOptionPane
+			}
+        });
+        creditsButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Coding by John D'Arcy and Philip Melavila\nArt by John D'Arcy"); //TODO Implement without JOptionPane
+			}
+        });
+        exitButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+        });
+        //Adding enemy array list
         enemies = new ArrayList<Enemy>();
-        enemies.add(new Enemy(200,200,100,20,20,0));
-        for(Enemy e : enemies)
-        {
-        	background.add(e);
-        }
         //Adding the inputs array
         inputs = new ArrayList<String>();
         //Creating the player character
         health = 100;
-        player = new Player(400, 400, health); 
+        player = new Player(300, 400, health); 
         playerHealth = new HealthBar(500, 20, 100, Color.RED);
         background.add(player);
         background.add(playerHealth);
-        //Creating the remainingClears label
+        playerHealth.setVisible(false);
+        //Creating the Jlabels
         remainingClears = new JLabel("Remaining Clears: " + player.getScreenClears());
         remainingClears.setBounds(100, 20, 150, 50);
         remainingHealth = new JLabel("Health: " + player.getHealth());
         remainingHealth.setBounds(500, 20, 150, 50);
         background.add(remainingClears);
         background.add(remainingHealth);
+        remainingClears.setVisible(false);
+        remainingHealth.setVisible(false);
         //Adding the Timer
         t = new Timer(10, this);
-        t.start();
         //Ticks
         tick = 0;
         //More initialization
@@ -92,7 +165,7 @@ public class ProjectMain extends JFrame implements ActionListener
 			@Override
 			public void keyPressed(KeyEvent e) 
 			{
-				//Movement
+				//Movement. When keys are pressed they are added to an ArrayList that is read in ActionPerformed to do actions
 				if(e.getKeyCode() == KeyEvent.VK_W)
 				{
 					if(!inputs.contains("W")) //player.setDy(-4);
@@ -113,6 +186,7 @@ public class ProjectMain extends JFrame implements ActionListener
 					if(!inputs.contains("D")) //player.setDx(4);
 						inputs.add("D");
 				}
+				//Shooting
 				if(e.getKeyCode() == KeyEvent.VK_SPACE)
 				{
 //					Bullet fired = new Bullet(player.getX() + 1, player.getY(), 0, -8, 2, 10, false, Color.BLUE);
@@ -156,10 +230,10 @@ public class ProjectMain extends JFrame implements ActionListener
 				{
 					if(player.getScreenClears() > 0)
 					{
-						player.useScreenClear();
+						player.setScreenClear(player.getScreenClears()-1);
 						for(int i = 0; i < bullets.size(); i++)
 						{
-							if(bullets.get(i).getHostile())
+							if(bullets.get(i).getHostile()) //Deletes the bullets
 							{
 								background.remove(bullets.get(i));
 								bullets.remove(i);
@@ -174,7 +248,7 @@ public class ProjectMain extends JFrame implements ActionListener
 		});
 
     }
-    public static void main(String[] args) 
+    public static void main(String[] args) //Creates the game
     {
         new ProjectMain();
     }
@@ -183,18 +257,18 @@ public class ProjectMain extends JFrame implements ActionListener
 	{
     	tick ++;
     	//Adding waves
-    	if(enemies.size() == 0)
+    	if(enemies.size() == 0 && start == true && tick > 150)
     	{
     		currentWave ++;
     		ArrayList<Enemy> newWave = manager.newWave(currentWave);
     		if(newWave.size() != 0)
         		{
-    				if(currentWave == 8)
+    				if(currentWave == 8) //Clearing the screen when the boss appears
     				{
     					player.setLocation(400, 500);
     					for(int i = 0; i < bullets.size(); i++)
 						{
-							if(bullets.get(i).getHostile())
+							if(bullets.get(i).getHostile()) 
 							{
 								background.remove(bullets.get(i));
 								bullets.remove(i);
@@ -202,12 +276,13 @@ public class ProjectMain extends JFrame implements ActionListener
 							}
 						}
     				}
-        			for(int enem = 0; enem < newWave.size(); enem++)
+        			for(int enem = 0; enem < newWave.size(); enem++) //Actually adding the enemies
             		{
             			Enemy newEnem = newWave.get(enem);
             			enemies.add(newEnem);
             			background.add(newEnem);
             			newWave.remove(enem);
+            			enem--;
             		}
         		}
     	}
@@ -257,7 +332,7 @@ public class ProjectMain extends JFrame implements ActionListener
 			enemies.get(enem).move();
 			enemies.get(enem).update();
 			newBullets = enemies.get(enem).shoot();
-			if(newBullets != null)
+			if(newBullets != null) //Runs when the shoot method works
 			{
 				for(int i = 0; i < newBullets.size(); i++)
 				{
@@ -275,7 +350,7 @@ public class ProjectMain extends JFrame implements ActionListener
 		//Updating the bullets
 		for(int b = 0; b < bullets.size(); b++)
 		{
-			if(bullets.get(b).getY() > 1000 || bullets.get(b).getX() < -50 || bullets.get(b).getX() > 900)
+			if(bullets.get(b).getY() > 1000 || bullets.get(b).getX() < -50 || bullets.get(b).getX() > 900) //Removing bullets that have gone offscreen
 			{
 				background.remove(bullets.get(b));
 				bullets.remove(b);
@@ -283,6 +358,7 @@ public class ProjectMain extends JFrame implements ActionListener
 				continue;
 			}
 			bullets.get(b).update();
+			//Collision detection: 2 Rectangles are made and if they intersect there is a collision
 			Rectangle r1 = new Rectangle(bullets.get(b).getX(), bullets.get(b).getY(), 
 			bullets.get(b).getWidth(), bullets.get(b).getHeight());
 			Rectangle r2 = new Rectangle(player.getX(), player.getY(), 
@@ -298,7 +374,7 @@ public class ProjectMain extends JFrame implements ActionListener
 				b --;
 			}
 		}
-		bulletCollision: for(int i = playerBullets.size() - 1; i >= 0; i--)
+		bulletCollision: for(int i = playerBullets.size() - 1; i >= 0; i--) //More collision, but this time for the bullets fired by a player
 		{
 			playerBullets.get(i).update();
 			Rectangle r1 = new Rectangle(playerBullets.get(i).getX(), playerBullets.get(i).getY(), 
@@ -320,7 +396,7 @@ public class ProjectMain extends JFrame implements ActionListener
 		}
 		for(int i = 0; i < playerBullets.size(); i++)
 		{
-			//Removing bullets that are off the screen
+			//Removing player bullets that are off the screen
 			if(playerBullets.get(i).getY() < 0)
 			{
 				background.remove(playerBullets.get(i));
@@ -328,7 +404,6 @@ public class ProjectMain extends JFrame implements ActionListener
 				i--;
 			}
 		}
-		repaint();
 		//Keeping the player within bounds
 		if(player.getX() < 0)
 		{
@@ -346,12 +421,63 @@ public class ProjectMain extends JFrame implements ActionListener
 		{
 			player.setLocation(player.getX(), 960);
 		}
-		//Checking to see if the player dies
+		repaint(); //Repainting everything
+		//Checking to see if the player dies. If the player is out of health the player disappears and a game over box appears.
 		if(player.getHealth() <= 0)
 		{
 			player.setVisible(false);
 			t.stop();
 			JOptionPane.showMessageDialog(null, "Game Over"); //TODO Implement without JOptionPane
+			reset();
 		}
 	}
+    
+    private void reset()
+    {
+    	currentWave = 0; //Resetting the game.
+    	tick = 0;
+    	for(int i = 0; i < enemies.size(); i++)
+    	{
+    		background.remove(enemies.get(i));
+    		enemies.remove(i);
+    		i--;
+    	}
+    	for(int i = 0; i < bullets.size(); i++)
+    	{
+    		background.remove(bullets.get(i));
+    		bullets.remove(i);
+    		i--;
+    	}
+    	for(int i = 0; i < playerBullets.size(); i++)
+    	{
+    		background.remove(playerBullets.get(i));
+    		playerBullets.remove(i);
+    		i--;
+    	}
+    	for(int i = 0; i < inputs.size(); i ++)
+    	{
+    		inputs.remove(i);
+    	}
+    	player.setVisible(true);
+    	player.setLocation(300, 400);
+		start = false;
+		startButton.setVisible(true);
+		startButton.setEnabled(true);
+		startControls.setVisible(true);
+		startControls.setEnabled(true);
+		creditsButton.setVisible(true);
+		creditsButton.setEnabled(true);
+		exitButton.setVisible(true);
+		exitButton.setEnabled(true);
+		titleLogo.setVisible(true);
+		playerHealth.setVisible(false);
+		remainingClears.setVisible(false);
+        remainingHealth.setVisible(false);
+        playerHealth.setSize(151, 21);
+        player.setHealth(100);
+        remainingHealth.setText("Health: " + player.getHealth());
+        player.setScreenClear(5);
+        remainingClears.setText("Remaining Clears: " + player.getScreenClears());
+        repaint();
+    }
 }
