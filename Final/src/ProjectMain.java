@@ -84,7 +84,7 @@ public class ProjectMain extends JFrame implements ActionListener
         exitButton.setBorder(line);
         background.add(exitButton);
         titleLogo = new JLabel();
-        titleLogo.setIcon(new ImageIcon("logo.png"));
+        titleLogo.setIcon(new ImageIcon("art\\logo.png"));
         titleLogo.setBounds(0,0,800,1000);
         background.add(titleLogo);
         //Adding action listeners for the start screen

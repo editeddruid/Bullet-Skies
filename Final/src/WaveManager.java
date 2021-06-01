@@ -13,17 +13,12 @@ public class WaveManager
 	}
 	public ArrayList<Enemy> newWave(int currentWave)
 	{
-		for(int w = 0; w < wave.size(); w++) //Removes all the old enemies from the ArrayList
-		{
-			wave.remove(w);
-			w--;
-		}
 		if(currentWave == 8) //Adding the boss on wave 8
 		{
 			wave.add(new BossEnemy(100, 100, 2000, 600, 200, 0));
 			return wave;
 		}
-		if(currentWave < 8) //Adding the basic enemies //TODO Figure out why enemies are spawning inconsistently
+		if(currentWave < 8) //Adding the basic enemies 
 		{
 			for(int i = 0; i < currentWave + 1; i++)
 			{

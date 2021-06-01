@@ -32,7 +32,7 @@ public class Player extends JComponent
 		this.health = health;
 		screenClears = 5;
 		try {                
-	          image = ImageIO.read(new File("Player.png")); //Sets the player to the player image
+	          image = ImageIO.read(new File("art\\Player.png")); //Sets the player to the player image
 	       } catch (IOException ex) {
 	            System.out.println("ERROR");
 	       }

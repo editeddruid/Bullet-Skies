@@ -30,7 +30,7 @@ public class EnemyUpDown extends Enemy
 		setSize(width + 1,height + 1);
 		bullets = new ArrayList<Bullet>();
 		try {                
-	          image = ImageIO.read(new File("EnemyUpDown.png"));
+	          image = ImageIO.read(new File("art\\EnemyUpDown.png"));
 	       } catch (IOException ex) {
 	            System.out.println("ERROR");
 	       }
