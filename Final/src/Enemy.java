@@ -36,7 +36,7 @@ public class Enemy extends JComponent {
 		this.health = health;
 		bullets = new ArrayList<Bullet>();
 		try {                
-	          image = ImageIO.read(new File("Enemy.png"));
+	          image = ImageIO.read(new File("art\\Enemy.png"));
 	       } catch (IOException ex) {
 	            System.out.println("ERROR");
 	       }

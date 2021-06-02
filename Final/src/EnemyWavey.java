@@ -37,7 +37,7 @@ public class EnemyWavey extends Enemy {
 		this.health = health;
 		bullets = new ArrayList<Bullet>();
 		try {                
-	          image = ImageIO.read(new File("EnemyWavey.png"));
+	          image = ImageIO.read(new File("art\\EnemyWavey.png"));
 	       } catch (IOException ex) {
 	            System.out.println("ERROR");
 	       }

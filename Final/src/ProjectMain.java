@@ -29,6 +29,7 @@ public class ProjectMain extends JFrame implements ActionListener
 	private ArrayList<Enemy> enemies;
 	private ArrayList<String> inputs;
 	private WaveManager manager;
+	private SoundManager soundManager;
 	private int health, tick, currentWave; //For if we decide to do multiple levels and want to transfer over health
 	private JLabel remainingClears, remainingHealth, titleLogo;
 	private JButton startButton, startControls, creditsButton, exitButton;
@@ -48,6 +49,8 @@ public class ProjectMain extends JFrame implements ActionListener
         //Adding the WaveManager
         manager = new WaveManager();
         currentWave = 0;
+        //Adding the sound manager
+        soundManager = new SoundManager();
         //Creating the Bullet ArrayList
         bullets = new ArrayList<Bullet>();
         playerBullets = new ArrayList<Bullet>();
@@ -84,7 +87,7 @@ public class ProjectMain extends JFrame implements ActionListener
         exitButton.setBorder(line);
         background.add(exitButton);
         titleLogo = new JLabel();
-        titleLogo.setIcon(new ImageIcon("logo.png"));
+        titleLogo.setIcon(new ImageIcon("art\\logo.png"));
         titleLogo.setBounds(0,0,800,1000);
         background.add(titleLogo);
         //Adding action listeners for the start screen
@@ -113,13 +116,13 @@ public class ProjectMain extends JFrame implements ActionListener
         startControls.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Controls:\nMovement: WASD\nShooting: SPACE\nScreen Clears: SHIFT\nSurvive for 8 waves to win."); //TODO Implement without JOptionPane
+				JOptionPane.showMessageDialog(null, "Controls:\nMovement: WASD\nShooting: SPACE\nScreen Clears: SHIFT\nSurvive for 6 waves to win."); //TODO Implement without JOptionPane
 			}
         });
         creditsButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Coding by John D'Arcy and Philip Melavila\nArt by John D'Arcy"); //TODO Implement without JOptionPane
+				JOptionPane.showMessageDialog(null, "Coding by John D'Arcy and Philip Melavila\nArt by John D'Arcy\nSound effects obtained from zapsplat.com"); //TODO Implement without JOptionPane
 			}
         });
         exitButton.addActionListener(new ActionListener() {
@@ -230,6 +233,8 @@ public class ProjectMain extends JFrame implements ActionListener
 				{
 					if(player.getScreenClears() > 0)
 					{
+						soundManager.setFile("sound\\screen_clear.wav");
+						soundManager.play();
 						player.setScreenClear(player.getScreenClears()-1);
 						for(int i = 0; i < bullets.size(); i++)
 						{
@@ -256,6 +261,32 @@ public class ProjectMain extends JFrame implements ActionListener
 	public void actionPerformed(ActionEvent e) 
 	{
     	tick ++;
+    	//Checking to see if you win
+    	if(currentWave > 6)
+    	{
+    		for(int i = 0; i < bullets.size(); i++)
+			{
+				background.remove(bullets.get(i));
+				bullets.remove(i);
+				i--;
+			}
+    		for(int enem = 0; enem < enemies.size(); enem ++)
+    		{
+    			background.remove(enemies.get(enem));
+				enemies.remove(enem);
+				enem--;
+    		}
+    		for(int i = 0; i < playerBullets.size(); i++)
+			{
+				background.remove(playerBullets.get(i));
+				playerBullets.remove(i);
+				i--;
+			}
+    		repaint();
+    		t.stop();
+    		JOptionPane.showMessageDialog(null, "You Win");
+    		reset();
+    	}
     	//Adding waves
     	if(enemies.size() == 0 && start == true && tick > 150)
     	{
@@ -263,7 +294,7 @@ public class ProjectMain extends JFrame implements ActionListener
     		ArrayList<Enemy> newWave = manager.newWave(currentWave);
     		if(newWave.size() != 0)
         		{
-    				if(currentWave == 8) //Clearing the screen when the boss appears
+    				if(currentWave == 6) //Clearing the screen when the boss appears
     				{
     					player.setLocation(400, 500);
     					for(int i = 0; i < bullets.size(); i++)
@@ -312,6 +343,8 @@ public class ProjectMain extends JFrame implements ActionListener
     				Bullet fired = new Bullet(player.getX() + 1, player.getY(), 0, -10, 4, 10, false, Color.YELLOW, 0);
     				playerBullets.add(fired);
     				background.add(fired);
+    				soundManager.setFile("sound\\fire.wav");
+    				soundManager.play();
     			}
     		}
     	}
@@ -323,6 +356,8 @@ public class ProjectMain extends JFrame implements ActionListener
 			//Checking to see if the enemy is dead
 			if(enemies.get(enem).getHealth() <= 0)
 			{
+				soundManager.setFile("sound\\enemy_death.wav");
+				soundManager.play();
 				background.remove(enemies.get(enem));
 				enemies.remove(enem);
 				enem --;
@@ -366,6 +401,8 @@ public class ProjectMain extends JFrame implements ActionListener
 			//Checking if the player is hit
 			if(r1.intersects(r2))
 			{
+				soundManager.setFile("sound\\player_hit.wav");
+				soundManager.play();
 				player.setHealth(bullets.get(b).getDamage() * -1);
 				remainingHealth.setText("Health: " + player.getHealth());
 				playerHealth.makeSmaller((int) ((player.getHealth() / 100.0) * 150));
@@ -386,6 +423,8 @@ public class ProjectMain extends JFrame implements ActionListener
 				enemies.get(enem).getWidth(), enemies.get(enem).getHeight());
 				if(r1.intersects(r2))
 				{
+					soundManager.setFile("sound\\enemy_hit.wav");
+					soundManager.play();
 					enemies.get(enem).setHealth(playerBullets.get(i).getDamage() * -1);
 					background.remove(playerBullets.get(i));
 					playerBullets.remove(i);
@@ -474,7 +513,7 @@ public class ProjectMain extends JFrame implements ActionListener
 		remainingClears.setVisible(false);
         remainingHealth.setVisible(false);
         playerHealth.setSize(151, 21);
-        player.setHealth(100);
+        player.setHealth(100 - player.getHealth());
         remainingHealth.setText("Health: " + player.getHealth());
         player.setScreenClear(5);
         remainingClears.setText("Remaining Clears: " + player.getScreenClears());

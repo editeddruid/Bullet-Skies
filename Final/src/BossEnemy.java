@@ -29,7 +29,7 @@ public class BossEnemy extends Enemy
 		setSize(width + 1,height + 1);
 		bullets = new ArrayList<Bullet>();
 		try {                
-	          image = ImageIO.read(new File("BossEnemy.png"));
+	          image = ImageIO.read(new File("art\\BossEnemy.png"));
 	       } catch (IOException ex) {
 	            System.out.println("ERROR");
 	       }
