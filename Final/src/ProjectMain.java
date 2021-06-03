@@ -3,7 +3,6 @@
  */
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -117,13 +116,13 @@ public class ProjectMain extends JFrame implements ActionListener
         startControls.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Controls:\nMovement: WASD\nShooting: SPACE\nScreen Clears: SHIFT\nSurvive for 8 waves to win."); //TODO Implement without JOptionPane
+				JOptionPane.showMessageDialog(null, "Controls:\nMovement: WASD\nShooting: SPACE\nScreen Clears: SHIFT\nSurvive for 8 waves to win."); //Implement without JOptionPane
 			}
         });
         creditsButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Coding by John D'Arcy and Philip Melavila\nArt by John D'Arcy\nSound effects obtained from zapsplat.com\nOST by Winter D'Arcy"); //TODO Implement without JOptionPane
+				JOptionPane.showMessageDialog(null, "Coding by John D'Arcy and Philip Melavila\nArt by John D'Arcy\nSound effects obtained from zapsplat.com\nOST by Winter D'Arcy"); //Implement without JOptionPane
 			}
         });
         exitButton.addActionListener(new ActionListener() {
@@ -467,7 +466,7 @@ public class ProjectMain extends JFrame implements ActionListener
 		{
 			player.setVisible(false);
 			t.stop();
-			JOptionPane.showMessageDialog(null, "Game Over"); //TODO Implement without JOptionPane
+			JOptionPane.showMessageDialog(null, "Game Over"); //Implement without JOptionPane
 			reset();
 		}
 	}
