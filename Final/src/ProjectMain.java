@@ -117,7 +117,7 @@ public class ProjectMain extends JFrame implements ActionListener
         startControls.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Controls:\nMovement: WASD\nShooting: SPACE\nScreen Clears: SHIFT\nSurvive for 6 waves to win."); //TODO Implement without JOptionPane
+				JOptionPane.showMessageDialog(null, "Controls:\nMovement: WASD\nShooting: SPACE\nScreen Clears: SHIFT\nSurvive for 8 waves to win."); //TODO Implement without JOptionPane
 			}
         });
         creditsButton.addActionListener(new ActionListener() {
