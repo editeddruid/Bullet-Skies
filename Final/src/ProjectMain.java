@@ -111,6 +111,7 @@ public class ProjectMain extends JFrame implements ActionListener
 				        remainingHealth.setVisible(true);
 						t.start();
 						player.setLocation(396, 600);
+						soundManager.setFile("sound\\song2.wav");
 					}
         		});
         startControls.addActionListener(new ActionListener() {
@@ -122,7 +123,7 @@ public class ProjectMain extends JFrame implements ActionListener
         creditsButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Coding by John D'Arcy and Philip Melavila\nArt by John D'Arcy\nSound effects obtained from zapsplat.com"); //TODO Implement without JOptionPane
+				JOptionPane.showMessageDialog(null, "Coding by John D'Arcy and Philip Melavila\nArt by John D'Arcy\nSound effects obtained from zapsplat.com\nOST by Winter D'Arcy"); //TODO Implement without JOptionPane
 			}
         });
         exitButton.addActionListener(new ActionListener() {
@@ -262,7 +263,7 @@ public class ProjectMain extends JFrame implements ActionListener
 	{
     	tick ++;
     	//Checking to see if you win
-    	if(currentWave > 6)
+    	if(currentWave > 8)
     	{
     		for(int i = 0; i < bullets.size(); i++)
 			{
@@ -448,17 +449,17 @@ public class ProjectMain extends JFrame implements ActionListener
 		{
 			player.setLocation(0, player.getY());
 		}
-		if(player.getX() > 782)
+		if(player.getX() > 780)
 		{
-			player.setLocation(782, player.getY());
+			player.setLocation(780, player.getY());
 		}
 		if(player.getY() < 60)
 		{
 			player.setLocation(player.getX(), 60);
 		}
-		if(player.getY() > 960)
+		if(player.getY() > 956)
 		{
-			player.setLocation(player.getX(), 960);
+			player.setLocation(player.getX(), 956);
 		}
 		repaint(); //Repainting everything
 		//Checking to see if the player dies. If the player is out of health the player disappears and a game over box appears.
@@ -473,6 +474,7 @@ public class ProjectMain extends JFrame implements ActionListener
     
     private void reset()
     {
+    	soundManager.stop();
     	currentWave = 0; //Resetting the game.
     	tick = 0;
     	for(int i = 0; i < enemies.size(); i++)
