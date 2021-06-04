@@ -261,6 +261,10 @@ public class ProjectMain extends JFrame implements ActionListener
 	public void actionPerformed(ActionEvent e) 
 	{
     	tick ++;
+    	if(tick % 21300 == 0)
+    	{
+    		soundManager.setFile("sound\\song2.wav");
+    	}
     	//Checking to see if you win
     	if(currentWave > 8)
     	{
